@@ -16,13 +16,16 @@
                     <form action="{{ route('sellings-report') }}" method="GET">
                         <div class="modal-body row">
                             <div class="col-4">
-                                <input type="date" name="startDate" class="form-control" placeholder="Start Date">
+                                <input type="date" name="startDate" class="form-control" placeholder="Start Date" value="{{ request()->startDate }}">
                             </div>
                             <div class="col-4"> 
-                                <input type="date" name="endDate" class="form-control" placeholder="End Date">
+                                <input type="date" name="endDate" class="form-control" placeholder="End Date" value="{{ request()->endDate }}">
                             </div>
                             <div class="col-4">
                                 <button type="submit" class="btn btn-primary">Filter Data</button>
+                                <a href="{{ route('sellings-reportPdf', 
+                                            ['startDate'=> request()->startDate, 'endDate' => request()->endDate]) }}" 
+                                class="btn btn-secondary">Export PDF</a>
                             </div>
                         </div>
                     </form>

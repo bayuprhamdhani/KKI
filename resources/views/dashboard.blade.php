@@ -28,7 +28,7 @@
                             <div class="card" style="width: 18rem;">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Transaksi</h5>
-                                    <h1 class="card-subtitle mb-2 text-body-secondary">10</h1>
+                                    <h1 class="card-subtitle mb-2 text-body-secondary">{{ $sellings }}</h1>
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,8 @@
 
 namespace App\Charts;
 
+use App\Models\Selling;
+use App\Models\User;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 
 class UsersByRoleChart
@@ -15,11 +17,17 @@ class UsersByRoleChart
 
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
+        $cashier = User::where('role_id', 6);
+        $data = [];
+
+        foreach ($cashier->get() as $key => $user) {
+            $data[$key] = Selling::where('cashier_id', $user->id)->count();
+        }
+
         return $this->chart->barChart()
-            ->setTitle('San Francisco vs Boston.')
-            ->setSubtitle('Wins during season 2021.')
-            ->addData('San Francisco', [6, 9, 3, 4, 10, 8])
-            ->addData('Boston', [7, 3, 8, 2, 6, 4])
-            ->setXAxis(['January', 'February', 'March', 'April', 'May', 'June']);
+            ->setTitle('Total Penjualan By Cashier.')
+            ->setSubtitle('Seluruh penjualan dibedakan berdasarkan kasir.')
+            ->addData('Total Penjualan', $data)
+            ->setXAxis($cashier->pluck('name')->toArray());
     }
 }
