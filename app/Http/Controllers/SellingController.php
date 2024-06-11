@@ -31,6 +31,17 @@ class SellingController extends Controller
         return view('sellings.report', compact('sellings'));
     }
 
+    public function reportPdf(Request $request)
+    {
+        $sellings = Selling::query();
+        if ($request->startDate && $request->endDate) {
+            $sellings->whereBetween('date_sell', [$request->startDate , $request->endDate]);
+        }
+        $sellings = $sellings->get();
+        $pdf = PDF::loadview('sellings.reportPdf', ['sellings' => $sellings]);
+    	return $pdf->stream('laporan-penjualan.pdf');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

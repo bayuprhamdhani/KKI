@@ -17,16 +17,6 @@ use Validator;
 
 class AuthController extends Controller
 {
-    public function dashboard(UsersByRoleChart $userChart)
-    {
-        if(Auth::check()){
-            $user = User::count();
-            return view('dashboard', compact('user'), ['chart' => $userChart->build()]);
-        }
-  
-        return redirect("login")->withSuccess('Opps! You do not have access');
-    }
-
     public function index(): View
     {
         return view('auth.login');
