@@ -8,12 +8,21 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
+                    @guest
+                    <h1>Welcome To Website</h1>
+                    @if (session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+                    @else
                     <h1>Hello, {{ auth()->user()->name }}</h1>
                     @if (session('success'))
                     <div class="alert alert-success" role="alert">
                         {{ session('success') }}
                     </div>
                     @endif
+                    @endguest
 
                     <div class="row" id="dashboard">
                         <div class="col-6">
