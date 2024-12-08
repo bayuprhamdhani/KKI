@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Charts\UsersByRoleChart;
 use App\Models\Selling;
 use App\Models\User;
+use App\Models\Subdistrict;
+use App\Models\Service;
+use App\Models\City;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,9 +17,12 @@ class DashboardController extends Controller
      */
     public function index(UsersByRoleChart $userChart)
     {
+        $cities = City::All();
+        $subdistricts = Subdistrict::All();
+        $services = Service::All();
         $user = User::count();
         $sellings = Selling::count();
-        return view('dashboard', compact('user', 'sellings'), ['chart' => $userChart->build()]);
+        return view('dashboard', compact('user', 'sellings','services','cities','subdistricts'), ['chart' => $userChart->build()]);
     }
 
     /**

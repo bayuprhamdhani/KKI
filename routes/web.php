@@ -7,6 +7,8 @@ use App\Http\Controllers\HaiController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CarController;
 
 Route::get('/postech/{nik}/{nama}/cek', [HaiController::class, 'index']);
 
@@ -22,7 +24,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::get('user-export', [UserController::class, 'export'])->name('user-export');
     Route::post('user-import', [UserController::class, 'import'])->name('user-import');
+    Route::get('company-export', [CompanyController::class, 'export'])->name('company-export');
+    Route::post('company-import', [CompanyController::class, 'import'])->name('company-import');
+    Route::get('car-export', [CarController::class, 'export'])->name('car-export');
+    Route::post('car-import', [CarController::class, 'import'])->name('car-import');
 
+    Route::resource('companies', CompanyController::class);
+    Route::resource('cars', CarController::class);
     Route::resource('products', ProductController::class);
     Route::resource('sellings', SellingController::class);
     Route::get('report/sellings', [SellingController::class, 'report'])->name('sellings-report');

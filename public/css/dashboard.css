@@ -1,0 +1,281 @@
+.rent{
+    height: 200px;
+    width: 350px;
+    margin-top: 25px; 
+    border: none;
+    border-radius: 10px;
+}
+
+.rentPrice{
+  margin-top: 20px;
+  color: whitesmoke;
+  text-align: center;
+  font-size: 25px;
+  font: bold;
+}
+
+.stock{
+  color: whitesmoke;
+  text-align: center;
+  font-size: 25px;
+  font: bold;
+}
+
+.custom-select{
+width:100%;
+height:calc(1.2em + 1rem + 2px);
+padding:.375rem 1.75rem .375rem .75rem;
+font-size:1rem;
+font-weight:400;
+line-height:1.5;
+color:#ffffff;
+vertical-align:middle;
+background-color: #333;
+border:1px solid #222;
+border-radius:.25rem;
+-webkit-appearance:none;
+-moz-appearance:none;
+appearance:none;
+}
+
+.custom-select:focus{
+border-color:#80bdff;
+outline:0;
+box-shadow:0 0 0 .2rem rgba(0,123,255,.25)
+}
+
+.custom-select:focus::-ms-value{
+color:#495057;
+background-color:#fff
+}
+
+.custom-select[multiple],
+
+.custom-select[size]:not([size="1"]){
+height:auto;padding-right:.75rem;background-image:none
+}
+
+.custom-select:disabled{
+color:#6c757d;
+background-color:#e9ecef
+}
+
+.custom-select::-ms-expand{
+display:none
+}
+
+.custom-select-sm{
+height:calc(1.5em + .5rem + 2px);
+padding-top:.25rem;
+padding-bottom:.25rem;
+padding-left:.5rem;
+font-size:.875rem
+}
+
+.custom-select-lg{
+height:calc(1.5em + 1rem + 2px);
+padding-top:.5rem;
+padding-bottom:.5rem;
+padding-left:1rem;
+font-size:1.25rem
+}
+
+.custom-file{
+position:relative;
+display:inline-block;
+width:100%;
+height:calc(1.5em + .75rem + 2px);
+margin-bottom:0
+}
+
+.custom-file-input{
+position:relative;
+z-index:2;
+width:100%;
+height:calc(1.5em + .75rem + 2px);
+margin:0;
+opacity:0
+}
+
+.custom-file-input:focus~.custom-file-label{
+border-color:#80bdff;
+box-shadow:0 0 0 .2rem rgba(0,123,255,.25)
+}
+
+.custom-file-input:disabled~.custom-file-label{
+background-color:#e9ecef
+}
+
+.custom-file-input:lang(en)~
+
+.custom-file-label::after{
+content:"Browse"
+}
+
+.custom-file-input~.custom-file-label[data-browse]::after{
+content:attr(data-browse)
+}
+
+.custom-file-label{
+position:absolute;
+top:0;
+right:0;
+left:0;
+z-index:1;
+height:calc(1.5em + .75rem + 2px);
+padding:.375rem .75rem;
+font-weight:400;
+line-height:1.5;
+color:#495057;
+background-color:#fff;
+border:1px solid #ced4da;
+border-radius:.25rem
+}
+
+.custom-file-label::after{
+position:absolute;
+top:0;
+right:0;
+bottom:0;
+z-index:3;
+display:block;
+height:calc(1.5em + .75rem);
+padding:.375rem .75rem;
+line-height:1.5;
+color:#495057;
+content:"Browse";
+background-color:#e9ecef;
+border-left:inherit;
+border-radius:0 .25rem .25rem 0
+}
+
+.custom-range{
+width:100%;
+height:calc(1rem + .4rem);
+padding:0;
+background-color:transparent;
+-webkit-appearance:none;
+-moz-appearance:none;
+appearance:none
+}
+
+.custom-range:focus{
+outline:0
+}
+
+.custom-range:focus::-webkit-slider-thumb{
+box-shadow:0 0 0 1px #fff,0 0 0 .2rem rgba(0,123,255,.25)
+}
+
+.custom-range:focus::-moz-range-thumb{
+box-shadow:0 0 0 1px #fff,0 0 0 .2rem rgba(0,123,255,.25)
+}
+
+.custom-range:focus::-ms-thumb{
+box-shadow:0 0 0 1px #fff,0 0 0 .2rem rgba(0,123,255,.25)
+}
+
+.custom-range::-moz-focus-outer{
+border:0
+}
+
+.custom-range::-webkit-slider-thumb{
+width:1rem;
+height:1rem;
+margin-top:-.25rem;
+background-color:#007bff;
+border:0;
+border-radius:1rem;
+transition:background-color .15s 
+ease-in-out,border-color .15s ease-in-out,
+box-shadow .15s ease-in-out;
+-webkit-appearance:none;
+appearance:none
+}
+
+.buttonn {
+  background: #333;;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 5px;
+  text-align: center;
+  height: 37px;
+  width: 37px;
+}
+
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 5px;
+    height: 40px;
+    padding: 12px 10px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #0f0;
+    border-radius: 5px;
+    height: 40px;
+    width: 100%;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+.js .inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.no-js .inputfile + label {
+  display: none;
+}
+
+.label i.fa {
+  margin-right: 5px;
+}
+
+.date{
+  display: flex;
+  justify-content: space-between;
+}
+
+.place{
+  display: flex;
+  justify-content: space-between;
+}
+
+.sponsion{
+  justify-content: space-between;
+  display: flex;
+}
+
+.btn{
+background-color: #333;
+border: #333;
+color: #ffffff;
+}

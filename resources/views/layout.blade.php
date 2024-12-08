@@ -79,6 +79,12 @@
                         </li>
                     @else
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('companies.index') }}">Company</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cars.index') }}">Car</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.index') }}">User</a>
                         </li>
                         <li class="nav-item">
