@@ -18,11 +18,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('address');
+            $table->unsignedBigInteger('status')->default(1);
             $table->string('logo');
             $table->string('bank');
             $table->string('norek');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('status')->references('id')->on('statuses');
         });
     }
 

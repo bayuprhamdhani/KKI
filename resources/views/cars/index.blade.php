@@ -1,103 +1,73 @@
 @extends('layout')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                @if (session('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
-                </div>
-                @endif
-                <div class="card-header">{{ __('Table Cars') }}</div>
+<body class="bg-light">
+    <div class="container">
+        <h1 class="text-center mb-4">Cars</h1>
+        <div id="showproduct" class="row g-4">
+            @foreach($cars as $car)
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <!-- Logo Perusahaan -->
+                        <img src="{{ asset('storage/' . $car->pict) }}" alt="{{ $car->name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
 
-                <div class="card-body">
-                    <a href="{{ route('cars.create') }}" class="btn btn-sm btn-secondary">
-                        Tambah Mobil
-                    </a>
-                    <a href="{{ route('car-export') }}" class="btn btn-sm btn-primary">
-                        Export Car to Excel
-                    </a>
-                    <a id="importButton" class="btn btn-sm btn-warning">
-                        Import Car
-                    </a>
-                    <table class="table table-striped" id="users">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Car Name</th>
-                                <th scope="col">Chair Quantity</th>
-                                <th scope="col">Transmisi</th>
-                                <th scope="col">Mileage</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Car Pict</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $no = 0; ?>
+                        <!-- Konten Card -->
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                            <h5 class="card-title fw-bold">{{ $car->name }}</h5>
+                            <h5 class="card-title fw-bold">{{ $car->price }}</h5>
+                            </div>
+                        @php
+                            $transmisiText = '';
 
-                            @foreach($cars as $row)
-                            <?php $no++ ?>
-                            <tr>
-                                <th scope="row">{{ $no }}</th>
-                                <td>{{$row->name}}</td>
-                                <td>{{$row->qty}}</td>
-                                <td>{{$row->transmisi}}</td>
-                                <td>{{$row->mileage}}</td>
-                                <td>{{$row->price}}</td>
-                                <td>{{$row->pict}}</td>
-                                <td>{{$row->status}}</td>
-                                <td>
-                                    <a href="{{ route('cars.edit', $row->id) }}" class="btn btn-sm btn-warning">
-                                        Edit
-                                    </a>
-                                    <form action="{{ route('cars.destroy',$row->id) }}" method="POST" style="display: inline" onsubmit="return confirm('Do you really want to delete {{ $row->name }}?');">
+                            if ($car->transmisi == 1) {
+                                $transmisiText = 'Manual';
+                            } elseif ($car->transmisi == 2) {
+                                $transmisiText = 'Matic';
+                            } else {
+                                $transmisiText = 'Error';
+                            }
+                        @endphp
+                            <div class="d-flex justify-content-between">
+                            <p class="card-text text-muted">Transmisi : {{ $transmisiText }}</p>
+                            <p class="card-text text-muted">Chair : {{ $car->qty }}</p>
+                            </div>
+                            <!-- Kategori Bank -->
+
+                        </div>
+
+                        <!-- Footer Card -->
+                        <div class="card-footer bg-white border-top-0">
+                        @php
+                            $categoryColorClass = '';
+                            $statusText = '';
+
+                            if ($car->status == 1) {
+                                $categoryColorClass = 'bg-success text-white';
+                                $statusText = 'Available';
+                            } elseif ($car->status == 2) {
+                                $categoryColorClass = 'bg-danger text-white';
+                                $statusText = 'Unavailable';
+                            } else {
+                                $categoryColorClass = 'bg-dark text-white';
+                                $statusText = 'Error';
+                            }
+                        @endphp
+                            <span class="badge {{ $categoryColorClass }} fs-6 px-1 py-2">{{ $statusText }}</span>
+                            <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-sm btn-warning mb-1">
+                                Edit
+                            </a>
+                            <form action="{{ route('cars.destroy',$car->id) }}" method="POST" style="display: inline" onsubmit="return confirm('Do you really want to delete {{ $car->name }}?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger"><span class="text-muted">
                                                 Delete
                                             </span></button>
                                     </form>
-                                </td>
-                            </tr>
-                            @endforeach
-
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="modal" tabindex="-1" id="importModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{ route('user-import') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="dynamic_modal_title"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="file" name="file" class="form-control">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Import Data</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#importButton').click(function() {
-                $('#dynamic_modal_title').text('Add Import User');
-                $('#importModal').modal('show');
-            });
-        })
-        new DataTable('#users');
-    </script>
     @endsection

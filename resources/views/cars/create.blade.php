@@ -9,7 +9,7 @@
                   <div class="card-header">Tambah Mobil</div>
                   <div class="card-body">
   
-                  <form action="{{ route('cars.store') }}" method="POST">
+                  <form action="{{ route('cars.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Car Name -->
     <div class="form-group row mt-3">
@@ -49,22 +49,11 @@
         </div>
     </div>
 
-    <!-- Mileage -->
-    <div class="form-group row mt-3">
-        <label for="mileage" class="col-md-4 col-form-label text-right">Mileage</label>
-        <div class="col-md-6">
-            <input type="text" id="mileage" class="form-control" name="mileage" required>
-            @if ($errors->has('mileage'))
-                <span class="text-danger">{{ $errors->first('mileage') }}</span>
-            @endif
-        </div>
-    </div>
-
     <!-- Price -->
     <div class="form-group row mt-3">
         <label for="price" class="col-md-4 col-form-label text-right">Price</label>
         <div class="col-md-6">
-            <input type="text" id="price" class="form-control" name="price" required>
+            <input type="text" id="price" class="form-control" name="price" required onkeyup="formatRupiah(this)">
             @if ($errors->has('price'))
                 <span class="text-danger">{{ $errors->first('price') }}</span>
             @endif
@@ -73,12 +62,15 @@
 
     <!-- Car Pict -->
     <div class="form-group row mt-3">
-        <label for="pict" class="col-md-4 col-form-label text-right">Car Pict</label>
+        <label for="pict" class="col-md-4 col-form-label text-right">pict</label>
         <div class="col-md-6">
-            <input type="text" id="pict" class="form-control" name="pict" required>
-            @if ($errors->has('pict'))
-                <span class="text-danger">{{ $errors->first('pict') }}</span>
-            @endif
+            <img class="img-preview img-fluid mb-3 col-sm-2" style="display: none;">
+            <input class="form-control @error('pict') is-invalid @enderror" type="file" id="pict" name="pict" onchange="previewImage()">
+            @error('pict')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
     </div>
 
@@ -89,7 +81,7 @@
             <select class="form-select" id="status" name="status" required>
                 <option value="">Choose</option>
                 @foreach($statuses as $val)
-                    <option value="{{ $val->status }}">{{ $val->status }}</option>
+                    <option value="{{ $val->id }}">{{ $val->status }}</option>
                 @endforeach
             </select>
             @if ($errors->has('status'))
@@ -111,4 +103,33 @@
       </div>
   </div>
 </main>
+<script>
+    function previewImage() {
+        const logo = document.querySelector('#pict');
+        const imgPreview = document.querySelector('.img-preview');
+
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(logo.files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        imgPreview.style.display = 'block';
+
+        }
+    }
+
+    function formatRupiah(input) {
+        // Ambil nilai input dan hilangkan semua karakter selain angka
+        let value = input.value.replace(/[^\d]/g, "");
+        
+        // Format nilai menjadi Rupiah
+        let formatted = new Intl.NumberFormat('id-ID', {
+            minimumFractionDigits: 0
+        }).format(value);
+
+        // Tambahkan "Rp" di awal
+        input.value = value ? `Rp ${formatted}` : "";
+    }
+</script>
 @endsection

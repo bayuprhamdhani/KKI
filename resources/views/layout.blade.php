@@ -77,25 +77,35 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">Register</a>
                         </li>
-                    @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('companies.index') }}">Company</a>
+                            <a class="nav-link" href="{{ route('registerCompany') }}">Register Company</a>
+                        </li>
+                    @else
+                    @can('admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('companies.index') }}">Companies</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cars.index') }}">Car</a>
+                            <a class="nav-link" href="{{ route('companies.create') }}">Add Company</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.index') }}">User</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('products.index') }}">Master Barang</a>
+                            <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('sellings.index') }}">Transaksi Penjualan</a>
+                                <a class="nav-link" href="{{ route('cars.create') }}">Add Car</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Transaksi Pembelian</a>
-                        </li>
+                    @endcan
+                    @can('company')
+                    <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cars.create') }}">Add Car</a>
+                    </li>
+                    @endcan
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                         </li>

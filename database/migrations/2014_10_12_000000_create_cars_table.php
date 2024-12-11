@@ -17,13 +17,14 @@ return new class extends Migration
             $table->string('name');
             $table->integer('qty');
             $table->unsignedBigInteger('transmisi')->nullable();
-            $table->string('mileage');
             $table->string('price');
             $table->string('pict');
-            $table->enum('status', ['available', 'unavailable'])->default('unavailable');
+            $table->unsignedBigInteger('status')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            
             $table->foreign('transmisi')->references('id')->on('transmisies');
+            $table->foreign('status')->references('id')->on('statuses');
 
         });
     }

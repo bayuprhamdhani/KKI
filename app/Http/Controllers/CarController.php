@@ -40,26 +40,26 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required',
             'qty' => 'required',
             'transmisi' => 'required',
-            'mileage' => 'required',
             'price' => 'required',
             'pict' => 'required',
             'status' => 'required'
         ]);
         // dd($data);
-        $data = $request->all();
+        if ($request->file('pict')) {
+            $validatedData['pict'] = $request->file('pict')->store('car-pict', 'public');
+        }
 
         $check = Car::create([
-            'name' => $data['name'],
-            'qty' => $data['qty'],
-            'transmisi' =>$data['transmisi'],
-            'mileage' =>$data['mileage'],
-            'price' =>$data['price'],
-            'pict' =>$data['pict'],
-            'status' =>$data['status'],
+            'name' => $validatedData['name'],
+            'qty' => $validatedData['qty'],
+            'transmisi' =>$validatedData['transmisi'],
+            'price' =>$validatedData['price'],
+            'pict' =>$validatedData['pict'],
+            'status' =>$validatedData['status']
         ]);
          
         return redirect()->route('cars.index')
@@ -89,29 +89,45 @@ class CarController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Car $car)
-    {
-        $request->validate([
-            'name' => 'required',
-            'qty' => 'required',
-            'transmisi' => 'required',
-            'mileage' => 'required',
-            'price' => 'required',
-            'pict' => 'required',
-            'status' => 'required'
-        ]);
+{
+    // Validasi Input
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'qty' => 'required',
+        'transmisi' => 'required',
+        'price' => 'required',
+        'pict' => 'required', // pict tidak wajib saat update
+        'status' => 'required'
+    ]);
 
-        $car->name = $request->name;
-        $car->qty = $request->qty;
-        $car->transmisi = $request->transmisi;
-        $car->mileage = $request->mileage;
-        $car->price = $request->price;
-        $car->pict = $request->pict;
-        $car->status = $request->status;
-        $car->save();
-
-        return redirect()->route('cars.index')
-        ->withSuccess('Great! You have successfully updated '.$car->name);
+    // Jika Ada File Gambar yang Diunggah
+    if ($request->file('pict')) {
+        // Simpan File Baru
+        $validatedData['pict'] = $request->file('pict')->store('car-pict', 'public');
+        // Hapus Gambar Lama (Opsional)
+        if ($car->pict) {
+            \Storage::disk('public')->delete($car->pict);
+        }
+    } else {
+        // Jika Tidak Ada Gambar Baru, Gunakan Gambar Lama
+        $validatedData['pict'] = $car->pict;
     }
+
+    // Update Data Car
+    $car->update([
+        'name' => $validatedData['name'],
+        'qty' => $validatedData['qty'],
+        'transmisi' => $validatedData['transmisi'],
+        'price' => $validatedData['price'],
+        'pict' => $validatedData['pict'],
+        'status' => $validatedData['status']
+    ]);
+
+    // Redirect dengan Pesan Sukses
+    return redirect()->route('cars.index')
+        ->withSuccess('Great! You have successfully updated ' . $car->name);
+}
+
 
     /**
      * Remove the specified resource from storage.

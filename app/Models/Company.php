@@ -19,6 +19,7 @@ class Company extends Model
         'email',
         'password',
         'address',
+        'status',
         'logo',
         'bank',
         'norek'

@@ -9,7 +9,7 @@
                   <div class="card-header">Add Company</div>
                   <div class="card-body">
   
-                      <form action="{{ route('companies.store') }} " method="POST">
+                      <form action="{{ route('companies.store') }} " method="POST" enctype="multipart/form-data">
                           @csrf
                           <div class="form-group row mt-3">
                               <label for="name" class="col-md-4 col-form-label text-right">Company Name</label>
@@ -51,15 +51,33 @@
                               </div>
                           </div>
 
-                          <div class="form-group row mt-3">
+                            <div class="form-group row mt-3">
+                                <label for="status" class="col-md-4 col-form-label text-right">Status</label>
+                                <div class="col-md-6">
+                                    <select class="form-select" id="status" name="status" required>
+                                        <option value="">Choose</option>
+                                        @foreach($statuses as $val)
+                                            <option value="{{ $val->id }}">{{ $val->status }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('status'))
+                                        <span class="text-danger">{{ $errors->first('status') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-3">
                               <label for="logo" class="col-md-4 col-form-label text-right">Logo</label>
-                              <div class="col-md-6">
-                                  <input type="text" id="logo" class="form-control" name="logo" required autofocus>
-                                  @if ($errors->has('logo'))
-                                      <span class="text-danger">{{ $errors->first('logo') }}</span>
-                                  @endif
-                              </div>
-                          </div>
+                                <div class="col-md-6">
+                                    <img class="img-preview img-fluid mb-3 col-sm-2" style="display: none;">
+                                    <input class="form-control @error('logo') is-invalid @enderror" type="file" id="logo" name="logo" onchange="previewImage()">
+                                    @error('logo')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
 
                           <div class="form-group row mt-3">
                               <label for="bank" class="col-md-4 col-form-label text-right">Bank</label>
@@ -94,4 +112,20 @@
       </div>
   </div>
 </main>
+<script>
+    function previewImage() {
+        const logo = document.querySelector('#logo');
+        const imgPreview = document.querySelector('.img-preview');
+
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(logo.files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        imgPreview.style.display = 'block';
+
+        }
+    }
+</script>
 @endsection

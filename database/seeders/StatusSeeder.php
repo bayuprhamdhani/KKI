@@ -11,8 +11,8 @@ class StatusSeeder extends Seeder
      * Run the database seeds.
      */
     private $statuses = [
-        ["Available", "Available"],
-        ["Unavailable", "Unavailable"]
+        ["available", "available"],
+        ["unavailable", "unavailable"]
     ];
 
     public function run(): void
