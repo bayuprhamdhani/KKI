@@ -1,6 +1,9 @@
 @extends('layout')
   
 @section('content')
+<!-- <h1>Hello, {{ auth()->user()->name }}</h1>
+<img src="{{ asset('storage/' . auth()->user()->path) }}" class="card-img-top" style="width: 200px; height: 200px; object-fit: cover;">
+-->
 <main class="login-form">
   <div class="cotainer">
       <div class="row justify-content-center">
@@ -86,6 +89,26 @@
             </select>
             @if ($errors->has('status'))
                 <span class="text-danger">{{ $errors->first('status') }}</span>
+            @endif
+        </div>
+    </div>
+
+    <div class="form-group row mt-3 d-none">
+        <label for="company_logo" class="col-md-4 col-form-label text-right">Company Logo</label>
+        <div class="col-md-6">
+            <input type="text" id="company_logo" class="form-control" name="company_logo" value="{{ auth()->user()->path }}" required>
+            @if ($errors->has('company_logo'))
+                <span class="text-danger">{{ $errors->first('company_logo') }}</span>
+            @endif
+        </div>
+    </div>
+
+    <div class="form-group row mt-3 d-none">
+        <label for="company_name" class="col-md-4 col-form-label text-right">Company Name</label>
+        <div class="col-md-6">
+            <input type="text" id="company_name" class="form-control" name="company_name" value="{{ auth()->user()->name }}" required>
+            @if ($errors->has('company_name'))
+                <span class="text-danger">{{ $errors->first('company_name') }}</span>
             @endif
         </div>
     </div>

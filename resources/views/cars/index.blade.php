@@ -3,10 +3,11 @@
 @section('content')
 <body class="bg-light">
     <div class="container">
+
         <h1 class="text-center mb-4">Cars</h1>
         <div id="showproduct" class="row g-4">
             @foreach($cars as $car)
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 shadow-sm">
                         <!-- Logo Perusahaan -->
                         <img src="{{ asset('storage/' . $car->pict) }}" alt="{{ $car->name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
@@ -53,6 +54,7 @@
                                 $statusText = 'Error';
                             }
                         @endphp
+                            <img src="{{ asset('storage/' . $car->company_logo) }}" class="card-img-top" style="width: 35px; height: 35px; object-fit: cover;">
                             <span class="badge {{ $categoryColorClass }} fs-6 px-1 py-2">{{ $statusText }}</span>
                             <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-sm btn-warning mb-1">
                                 Edit

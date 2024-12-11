@@ -10,19 +10,35 @@ use App\Imports\CarsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        $cars = Car::all();
+        // Ambil user yang sedang login
+        $user = Auth::user();
+    
+        // Jika role_id == 1, ambil semua data cars
+        if ($user->role_id == 1) {
+            $cars = Car::all();
+        } else {
+            // Jika role_id bukan 1, filter berdasarkan company-name
+            $cars = Car::where('company-name', $user->name)->get();
+        }
+    
+        // Ambil data status dan transmisi
         $statuses = Status::all();
         $transmisies = Transmisi::all();
-        return view('cars.index', compact('cars','transmisies','statuses'));
+    
+        // Kirim data ke view
+        return view('cars.index', compact('cars', 'transmisies', 'statuses'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -46,7 +62,9 @@ class CarController extends Controller
             'transmisi' => 'required',
             'price' => 'required',
             'pict' => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'company_logo' => 'required',
+            'company_name' => 'required'
         ]);
         // dd($data);
         if ($request->file('pict')) {
@@ -59,7 +77,9 @@ class CarController extends Controller
             'transmisi' =>$validatedData['transmisi'],
             'price' =>$validatedData['price'],
             'pict' =>$validatedData['pict'],
-            'status' =>$validatedData['status']
+            'status' =>$validatedData['status'],
+            'company_logo' =>$validatedData['company_logo'],
+            'company_name' =>$validatedData['company_name'],
         ]);
          
         return redirect()->route('cars.index')
@@ -96,7 +116,6 @@ class CarController extends Controller
         'qty' => 'required',
         'transmisi' => 'required',
         'price' => 'required',
-        'pict' => 'required', // pict tidak wajib saat update
         'status' => 'required'
     ]);
 

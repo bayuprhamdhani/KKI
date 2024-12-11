@@ -18,9 +18,10 @@ class Car extends Model
         'name',
         'qty',
         'transmisi',
-        'mileage',
         'price',
         'pict',
         'status',
+        'company_logo',
+        'company_name',
     ];
 }

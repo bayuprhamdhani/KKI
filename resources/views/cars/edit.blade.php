@@ -50,16 +50,6 @@
         </div>
     </div>
 
-    <!-- Mileage -->
-    <div class="form-group row mt-3">
-        <label for="mileage" class="col-md-4 col-form-label text-right">Mileage</label>
-        <div class="col-md-6">
-            <input type="text" id="mileage" class="form-control" name="mileage" value="{{ $car->mileage }}" required>
-            @if ($errors->has('mileage'))
-                <span class="text-danger">{{ $errors->first('mileage') }}</span>
-            @endif
-        </div>
-    </div>
 
     <!-- Price -->
     <div class="form-group row mt-3">

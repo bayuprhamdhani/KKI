@@ -51,7 +51,8 @@ class AuthControllerCompany extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id' => 2 // Set role ke "company"
+            'role_id' => 2, // Set role ke "company"
+            'path' => $data['logo']
         ]);
 
         // Simpan ke Tabel Company

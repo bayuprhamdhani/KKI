@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('price');
             $table->string('pict');
             $table->unsignedBigInteger('status')->nullable();
+            $table->string('company_logo');
+            $table->string('company_name');
             $table->rememberToken();
             $table->timestamps();
             
