@@ -6,32 +6,79 @@
       <div class="row justify-content-center">
           <div class="col-md-8">
               <div class="card">
-                  <div class="card-header">Register Customer</div>
+                  <div class="card-header">Transaction</div>
                   <div class="card-body">
   
-                  <form action="{{ route('registerCustomer.post') }} " method="POST">
-                          @csrf
+                  <form action="{{ route('registerTransaction.post', $car->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                          <h4 style="margin-left:0.7rem;">RENT ORDER</h4>
                           <div class="form-group row mt-3">
-                              <label for="name" class="col-md-4 col-form-label text-right">Customer Name</label>
+                              <label for="company" class="col-md-4 col-form-label text-right">Company</label>
                               <div class="col-md-6">
-                                  <input type="text" id="name" class="form-control" name="name" required autofocus>
-                                  @if ($errors->has('name'))
-                                      <span class="text-danger">{{ $errors->first('name') }}</span>
+                                  <input type="text" id="company" class="form-control" name="company" value="{{ $car->company_name }}" required autofocus>
+                                  @if ($errors->has('company'))
+                                      <span class="text-danger">{{ $errors->first('company') }}</span>
+                                  @endif
+                              </div>
+                          </div>  
+                          <div class="form-group row mt-3">
+                              <label for="car" class="col-md-4 col-form-label text-right">Car</label>
+                              <div class="col-md-6">
+                                  <input type="text" id="car" class="form-control" name="car" value="{{ $car->name }}" required autofocus>
+                                  @if ($errors->has('car'))
+                                      <span class="text-danger">{{ $errors->first('car') }}</span>
+                                  @endif
+                              </div>
+                          </div>  
+                          <div class="form-group row mt-3">
+                              <label for="pick_up" class="col-md-4 col-form-label text-right">Pick Up Date</label>
+                              <div class="col-md-6">
+                                  <input type="date" id="pick_up" class="form-control" name="pick_up" required>
+                                  @if ($errors->has('pick_up'))
+                                      <span class="text-danger">{{ $errors->first('pick_up') }}</span>
                                   @endif
                               </div>
                           </div>
-  
                           <div class="form-group row mt-3">
-                              <label for="email_address" class="col-md-4 col-form-label text-right">E-Mail Address</label>
+                              <label for="drop_off" class="col-md-4 col-form-label text-right">Drop Off Date</label>
                               <div class="col-md-6">
-                                  <input type="text" id="email_address" class="form-control" name="email" required autofocus>
+                                  <input type="date" id="drop_off" class="form-control" name="drop_off" required>
+                                  @if ($errors->has('drop_off'))
+                                      <span class="text-danger">{{ $errors->first('drop_off') }}</span>
+                                  @endif
+                              </div>
+                          </div>
+                          <div class="form-group row mt-3">
+                              <label for="date_order" class="col-md-4 col-form-label text-right">Order Date</label>
+                              <div class="col-md-6">
+                                  <input type="date" id="date_order" class="form-control" name="date_order" required>
+                                  @if ($errors->has('date_order'))
+                                      <span class="text-danger">{{ $errors->first('date_order') }}</span>
+                                  @endif
+                              </div>
+                          </div>
+                          <div class="form-group row mt-3 mb-5">
+                              <label for="price" class="col-md-4 col-form-label text-right">Price</label>
+                              <div class="col-md-6">
+                                  <input type="text" id="price" class="form-control" name="price" value="Rp {{ $car->price }}" required>
+                                  @if ($errors->has('price'))
+                                      <span class="text-danger">{{ $errors->first('price') }}</span>
+                                  @endif
+                              </div>
+                          </div>
+
+                          <h4 style="margin-left:0.7rem;">REGISTER ACCOUNT</h4>
+                          <div class="form-group row mt-3">
+                              <label for="email" class="col-md-4 col-form-label text-right">E-Mail Address</label>
+                              <div class="col-md-6">
+                                  <input type="text" id="email" class="form-control" name="email" required autofocus>
                                   @if ($errors->has('email'))
                                       <span class="text-danger">{{ $errors->first('email') }}</span>
                                   @endif
                               </div>
                           </div>
-  
-                          <div class="form-group row mt-3">
+                          <div class="form-group row mt-3 mb-5">
                               <label for="password" class="col-md-4 col-form-label text-right">Password</label>
                               <div class="col-md-6">
                                   <input type="password" id="password" class="form-control" name="password" required>
@@ -41,10 +88,20 @@
                               </div>
                           </div>
 
+                          <h4 style="margin-left:0.7rem;">BIODATA CUSTOMER</h4>
+                          <div class="form-group row">
+                              <label for="customer" class="col-md-4 col-form-label text-right">Customer Name</label>
+                              <div class="col-md-6">
+                                  <input type="text" id="customer" class="form-control" name="customer" required autofocus>
+                                  @if ($errors->has('customer'))
+                                      <span class="text-danger">{{ $errors->first('customer') }}</span>
+                                  @endif
+                              </div>
+                          </div>
                           <div class="form-group row mt-3">
                               <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
                               <div class="col-md-6">
-                                  <input type="text" id="contact" class="form-control" name="contact" required autofocus>
+                                  <input type="number" id="contact" class="form-control" name="contact" required autofocus>
                                   @if ($errors->has('contact'))
                                       <span class="text-danger">{{ $errors->first('contact') }}</span>
                                   @endif
@@ -91,7 +148,7 @@
 </div>
 
 
-<div class="form-group row mt-3">
+<div class="form-group row mt-3 mb-5">
     <label for="subdistrict" class="col-md-4 col-form-label text-right">Subdistrict</label>
     <div class="col-md-6">
         <select class="form-select" id="subdistrict" name="subdistrict" required>
@@ -103,10 +160,11 @@
     </div>
 </div>
 
-                          <div class="form-group row mt-3">
-                              <label for="card_type" class="col-md-4 col-form-label text-right">Card Type</label>
-                              <div class="col-md-6">
-                                  <select class="form-select" id="card_type" name="card_type" required>
+                          <h4 style="margin-left:0.7rem;">PAYMENT</h4>
+                          <div class="form-group row">
+                                <label for="card_type" class="col-md-4 col-form-label text-right">Card Type</label>
+                                <div class="col-md-6">
+                                    <select class="form-select" id="card_type" name="card_type" required>
                                         <option value="">Choose</option>
                                         @foreach($card_types as $val)
                                             <option value="{{ $val->id }}">{{ $val->card_type }}</option>
@@ -115,25 +173,15 @@
                                     @if ($errors->has('card_type'))
                                         <span class="text-danger">{{ $errors->first('card_type') }}</span>
                                     @endif
-                              </div>
-                          </div>
+                                </div>
+                            </div>
 
-                          <div class="form-group row mt-3">
+                            <div class="form-group row mt-3">
                               <label for="card_number" class="col-md-4 col-form-label text-right">Card Number</label>
                               <div class="col-md-6">
-                                  <input type="text" id="card_number" class="form-control" name="card_number" required autofocus>
+                                  <input type="number" id="card_number" class="form-control" name="card_number" required autofocus>
                                   @if ($errors->has('card_number'))
                                       <span class="text-danger">{{ $errors->first('card_number') }}</span>
-                                  @endif
-                              </div>
-                          </div>
-
-                          <div class="form-group row mt-3">
-                              <label for="card_owner" class="col-md-4 col-form-label text-right">Card Owner</label>
-                              <div class="col-md-6">
-                                  <input type="text" id="card_owner" class="form-control" name="card_owner" required autofocus>
-                                  @if ($errors->has('card_owner'))
-                                      <span class="text-danger">{{ $errors->first('card_owner') }}</span>
                                   @endif
                               </div>
                           </div>
@@ -149,23 +197,21 @@
                           </div>
 
                           <div class="form-group row mt-3">
-                            <label for="cvv" class="col-md-4 col-form-label text-right">CVV</label>
-                            <div class="col-md-6">
-                                <input type="text" id="cvv" class="form-control" name="cvv" 
-                                    maxlength="3" inputmode="numeric" pattern="\d{3}" title="Please enter exactly 3 digits" required autofocus>
-                                @if ($errors->has('cvv'))
-                                    <span class="text-danger">{{ $errors->first('cvv') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                          
-                          <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
-                              <button type="submit" class="btn btn-primary">
-                                  Submit
-                              </button>
+                              <label for="cvv" class="col-md-4 col-form-label text-right">CVV</label>
+                              <div class="col-md-6">
+                                  <input type="number" id="cvv" class="form-control" name="cvv" required autofocus>
+                                  @if ($errors->has('cvv'))
+                                      <span class="text-danger">{{ $errors->first('cvv') }}</span>
+                                  @endif
+                              </div>
                           </div>
-                      </form>
+
+                            <!-- Submit Button -->
+                          <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                           </div>
+                        </form>
+
                         
                   </div>
               </div>
@@ -173,6 +219,25 @@
       </div>
   </div>
 </main>
+<script>
+    // Set default value of input to today's date
+    document.addEventListener("DOMContentLoaded", function() {
+        var today = new Date().toISOString().split('T')[0];  // Format: YYYY-MM-DD
+        document.getElementById('date_order').value = today;
+    });
+</script>
+<script>
+document.getElementById('cvv').addEventListener('input', function (e) {
+    let value = e.target.value;
+    // Menghapus karakter non-angka
+    value = value.replace(/\D/g, '');
+    // Batasi panjang input hanya 3 karakter
+    if (value.length > 3) {
+        value = value.substring(0, 3);
+    }
+    e.target.value = value;
+});
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -265,34 +330,6 @@ $(document).ready(function() {
             $('#subdistrict').empty().append('<option value="">Choose</option>');
         }
     });
-});
-</script>
-<script>
-document.getElementById('contact').addEventListener('input', function (e) {
-    let value = e.target.value;
-    // Menghapus karakter non-angka
-    value = value.replace(/\D/g, '');
-    e.target.value = value;
-});
-</script>
-<script>
-document.getElementById('card_number').addEventListener('input', function (e) {
-    let value = e.target.value;
-    // Menghapus karakter non-angka
-    value = value.replace(/\D/g, '');
-    e.target.value = value;
-});
-</script>
-<script>
-document.getElementById('cvv').addEventListener('input', function (e) {
-    let value = e.target.value;
-    // Menghapus karakter non-angka
-    value = value.replace(/\D/g, '');
-    // Batasi panjang input hanya 3 karakter
-    if (value.length > 3) {
-        value = value.substring(0, 3);
-    }
-    e.target.value = value;
 });
 </script>
 @endsection

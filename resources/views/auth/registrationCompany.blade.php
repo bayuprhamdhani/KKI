@@ -97,4 +97,20 @@
       </div>
   </div>
 </main>
+<script>
+    function previewImage() {
+        const logo = document.querySelector('#logo');
+        const imgPreview = document.querySelector('.img-preview');
+
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(logo.files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        imgPreview.style.display = 'block';
+
+        }
+    }
+</script>
 @endsection

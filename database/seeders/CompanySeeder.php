@@ -9,16 +9,13 @@ class CompanySeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     */          
+     */
     private $companies = [
-        ["TEST1", "TEST1@gmail.com", "123456", "tasikmalaya", 1, "company-logo/test.jpeg", "BCA", "1423243234"],
-        ["TEST2", "TEST2@gmail.com", "123456", "bandung", 1, "company-logo/test.jpeg", "BRI", "1423243234"],
-        ["TEST3", "TEST3@gmail.com", "123456", "garut", 2, "company-logo/test.jpeg", "Mandiri", "1423243234"],
-        ["TEST4", "TEST4@gmail.com", "123456", "ciamis", 1, "company-logo/test.jpeg", "BSI", "1423243234"],
-        ["TEST5", "TEST5@gmail.com", "123456", "majalengka", 1, "company-logo/test.jpeg", "BCA", "1423243234"],
-        ["TEST6", "TEST6@gmail.com", "123456", "kuningan", 2, "company-logo/test.jpeg", "BRI", "1423243234"],
-        ["TEST7", "TEST7@gmail.com", "123456", "jakarta", 1, "company-logo/test.jpeg", "Mandiri", "1423243234"],
-        ["TEST8", "TEST8@gmail.com", "123456", "bogor", 2, "company-logo/test.jpeg", "BSI", "1423243234"],
+        ["Assa", "assa@gmail.com", "123456", "tasikmalaya", 1, "company-logo/assa.png", "BCA", "1423243234"],
+        ["Autonet", "autonet@gmail.com", "123456", "bandung", 1, "company-logo/autonet.jpg", "BRI", "1423243234"],
+        ["Budiman", "TEST3@gmail.com", "123456", "garut", 2, "company-logo/budiman.png", "Mandiri", "1423243234"],
+        ["Doa Ibu", "doaibu@gmail.com", "123456", "ciamis", 1, "company-logo/doa ibu.jpg", "BSI", "1423243234"],
+        ["Monas", "monas@gmail.com", "123456", "majalengka", 2, "company-logo/monas.jpg", "BCA", "1423243234"]
     ];
 
     public function run(): void

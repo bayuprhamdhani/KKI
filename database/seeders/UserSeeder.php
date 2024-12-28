@@ -12,9 +12,15 @@ class UserSeeder extends Seeder
      */          
     private $users = [
         ["Bayu", "bayuraina@gmail.com", "123456", 1, ""],
-        ["Nika Rent", "nika@gmail.com", "123456", 2, "company-logo/test.jpeg"],
-        ["Zalsa Rent", "zalsa@gmail.com", "123456", 2, "company-logo/test.jpeg"],
-        ["trinanda", "trinanda@gmail.com", "123456", 3, ""],
+        ["Assa", "assa@gmail.com", "123456", 2, "company-logo/assa.png"],
+        ["Autonet", "autonet@gmail.com", "123456", 2, "company-logo/autonet.jpg"],
+        ["Budiman", "budiman@gmail.com", "123456", 2, "company-logo/budiman.png"],
+        ["Doa Ibu", "doaibu@gmail.com", "123456", 2, "company-logo/doa ibu.jpg"],
+        ["Trinanda Zalsa", "trinanda@gmail.com", "123456", 3, ""],
+        ["Rainna Shofa", "raina@gmail.com", "123456", 3, ""],
+        ["Esa Albi", "esa@gmail.com", "123456", 3, ""],
+        ["Naufal Elqolbi", "naufal@gmail.com", "123456", 3, ""],
+        ["Fikri Ardian", "fikri@gmail.com", "123456", 3, ""]
     ];
 
     public function run(): void

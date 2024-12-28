@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->string('City_Name');
+            $table->unsignedBigInteger('province');
+            $table->string('city');
             $table->timeStamps();
 
+            $table->foreign('province')->references('id')->on('provinces');
         });
     }
 

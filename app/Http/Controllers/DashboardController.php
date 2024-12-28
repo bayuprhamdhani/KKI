@@ -8,6 +8,9 @@ use App\Models\User;
 use App\Models\Subdistrict;
 use App\Models\Service;
 use App\Models\City;
+use App\Models\Car;
+use App\Models\Country;
+use App\Models\Province;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -18,11 +21,14 @@ class DashboardController extends Controller
     public function index(UsersByRoleChart $userChart)
     {
         $cities = City::All();
+        $cars = Car::All();
+        $provinces = Province::All();
+        $countries = Country::All();
         $subdistricts = Subdistrict::All();
         $services = Service::All();
         $user = User::count();
         $sellings = Selling::count();
-        return view('dashboard', compact('user', 'sellings','services','cities','subdistricts'), ['chart' => $userChart->build()]);
+        return view('dashboard', compact('cars', 'user', 'sellings','services','cities','provinces','countries','subdistricts'), ['chart' => $userChart->build()]);
     }
 
     /**

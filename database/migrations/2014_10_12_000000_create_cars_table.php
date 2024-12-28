@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('qty');
             $table->unsignedBigInteger('transmisi')->nullable();
-            $table->string('price');
+            $table->integer('price');
             $table->string('pict');
             $table->unsignedBigInteger('status')->nullable();
             $table->string('company_logo');

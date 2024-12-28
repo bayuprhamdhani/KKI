@@ -28,7 +28,7 @@ class CarController extends Controller
             $cars = Car::all();
         } else {
             // Jika role_id bukan 1, filter berdasarkan company-name
-            $cars = Car::where('company-name', $user->name)->get();
+            $cars = Car::where('company_name', $user->name)->get();
         }
     
         // Ambil data status dan transmisi

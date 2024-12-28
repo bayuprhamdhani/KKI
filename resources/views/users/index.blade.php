@@ -41,7 +41,18 @@
                                 <th scope="row">{{ $no }}</th>
                                 <td>{{$row->name}}</td>
                                 <td>{{$row->email}}</td>
-                                <td>{{$row->role->role_name}}</td>
+                        @php
+                            $roleText = '';
+
+                            if ($row->role_id == 1) {
+                                $roleText = 'Admin';
+                            } elseif ($row->role_id == 2) {
+                                $roleText = 'Company';
+                            } else {
+                                $roleText = 'Customer';
+                            }
+                        @endphp
+                                <td>{{ $roleText }}</td>
                                 <td>
                                     <a href="{{ route('users.edit', $row->id) }}" class="btn btn-sm btn-warning">
                                         Edit

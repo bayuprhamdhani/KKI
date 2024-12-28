@@ -1,25 +1,22 @@
 @extends('layout')
   
 @section('content')
-<!-- < <h1>Hello, {{ auth()->user()->name }}</h1>
- <h1>Hello, {{ auth()->user()->path }}</h1>
-<img src="{{ asset('storage/' . auth()->user()->path) }}" class="card-img-top" style="width: 200px; height: 200px; object-fit: cover;">
--->
 <main class="login-form">
   <div class="cotainer">
       <div class="row justify-content-center">
           <div class="col-md-8">
               <div class="card">
-                  <div class="card-header">Add Car</div>
+                  <div class="card-header">Edit Mobil</div>
                   <div class="card-body">
   
-                  <form action="{{ route('cars.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <!-- Car Name -->
+                      <form action="{{ route('cars.update', $car->id ) }} " method="POST" enctype="multipart/form-data">
+                          @csrf
+                          @method('PUT')
+                          <!-- Car Name -->
     <div class="form-group row mt-3">
         <label for="name" class="col-md-4 col-form-label text-right">Car Name</label>
         <div class="col-md-6">
-            <input type="text" id="name" class="form-control" name="name" required autofocus>
+            <input type="text" id="name" class="form-control" name="name" value="{{ $car->name }}" required autofocus>
             @if ($errors->has('name'))
                 <span class="text-danger">{{ $errors->first('name') }}</span>
             @endif
@@ -30,7 +27,7 @@
     <div class="form-group row mt-3">
         <label for="qty" class="col-md-4 col-form-label text-right">Chair Quantity</label>
         <div class="col-md-6">
-            <input type="text" id="qty" class="form-control" name="qty" required>
+            <input type="text" id="qty" class="form-control" name="qty" value="{{ $car->qty }}" required>
             @if ($errors->has('qty'))
                 <span class="text-danger">{{ $errors->first('qty') }}</span>
             @endif
@@ -44,7 +41,7 @@
             <select class="form-select" id="transmisi" name="transmisi" required>
                 <option value="">Choose</option>
                 @foreach($transmisies as $val)
-                    <option value="{{ $val->id }}">{{ $val->transmisi }}</option>
+                    <option value="{{$val->id}}" {{ ($car->transmisi == $val->id) ? 'selected' : '' }}>{{$val->transmisi}}</option>
                 @endforeach
             </select>
             @if ($errors->has('transmisi'))
@@ -53,11 +50,12 @@
         </div>
     </div>
 
+
     <!-- Price -->
     <div class="form-group row mt-3">
         <label for="price" class="col-md-4 col-form-label text-right">Price</label>
         <div class="col-md-6">
-            <input type="text" id="price" class="form-control" name="price" required onkeyup="formatRupiah(this)">
+            <input type="text" id="price" class="form-control" name="price" value="{{ $car->price }}" required>
             @if ($errors->has('price'))
                 <span class="text-danger">{{ $errors->first('price') }}</span>
             @endif
@@ -68,7 +66,7 @@
     <div class="form-group row mt-3">
         <label for="pict" class="col-md-4 col-form-label text-right">pict</label>
         <div class="col-md-6">
-            <img class="img-preview img-fluid mb-3 col-sm-2" style="display: none;">
+            <img class="img-preview img-fluid mb-3 col-sm-2" src="{{ asset('storage/' . $car->pict) }}">
             <input class="form-control @error('pict') is-invalid @enderror" type="file" id="pict" name="pict" onchange="previewImage()">
             @error('pict')
                 <div class="invalid-feedback">
@@ -85,7 +83,7 @@
             <select class="form-select" id="status" name="status" required>
                 <option value="">Choose</option>
                 @foreach($statuses as $val)
-                    <option value="{{ $val->id }}">{{ $val->status }}</option>
+                <option value="{{$val->id}}" {{ ($car->status == $val->id) ? 'selected' : '' }}>{{$val->status}}</option>
                 @endforeach
             </select>
             @if ($errors->has('status'))
@@ -94,32 +92,12 @@
         </div>
     </div>
 
-    <div class="form-group row mt-3 d-none">
-        <label for="company_logo" class="col-md-4 col-form-label text-right">Company Logo</label>
-        <div class="col-md-6">
-            <input type="text" id="company_logo" class="form-control" name="company_logo" value="{{ auth()->user()->path }}" required>
-            @if ($errors->has('company_logo'))
-                <span class="text-danger">{{ $errors->first('company_logo') }}</span>
-            @endif
-        </div>
-    </div>
-
-    <div class="form-group row mt-3 d-none">
-        <label for="company_name" class="col-md-4 col-form-label text-right">Company Name</label>
-        <div class="col-md-6">
-            <input type="text" id="company_name" class="form-control" name="company_name" value="{{ auth()->user()->name }}" required>
-            @if ($errors->has('company_name'))
-                <span class="text-danger">{{ $errors->first('company_name') }}</span>
-            @endif
-        </div>
-    </div>
-
-    <!-- Submit Button -->
-    <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</form>
-
+                          <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
+                              <button type="submit" class="btn btn-primary">
+                                  Submit
+                              </button>
+                          </div>
+                      </form>
                         
                   </div>
               </div>
@@ -141,19 +119,6 @@
         imgPreview.style.display = 'block';
 
         }
-    }
-
-    function formatRupiah(input) {
-        // Ambil nilai input dan hilangkan semua karakter selain angka
-        let value = input.value.replace(/[^\d]/g, "");
-        
-        // Format nilai menjadi Rupiah
-        let formatted = new Intl.NumberFormat('id-ID', {
-            minimumFractionDigits: 0
-        }).format(value);
-
-        // Tambahkan "Rp" di awal
-        input.value = value ? `Rp ${formatted}` : "";
     }
 </script>
 @endsection
