@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Company;
 
 class Car extends Model
 {
@@ -21,7 +22,17 @@ class Car extends Model
         'price',
         'pict',
         'status',
-        'company_logo',
-        'company_name',
+        'company'
     ];
+
+// app/Models/Car.php
+public function company() {
+    return $this->belongsTo(Company::class, 'company', 'id');  // 'company' adalah foreign key di tabel cars
+}
+// app/Models/Car.php
+public function transactions()
+{
+    return $this->hasMany(Transaction::class, 'car', 'id');
+}
+
 }

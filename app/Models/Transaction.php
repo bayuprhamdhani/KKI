@@ -23,4 +23,10 @@ class Transaction extends Model
         'date_order',
         'price'
     ];
+    // app/Models/Transaction.php
+public function car()
+{
+    return $this->belongsTo(Car::class, 'car', 'id');
+}
+
 }

@@ -17,6 +17,7 @@ use App\Http\Controllers\TransactionController;
 
 Route::get('/postech/{nik}/{nama}/cek', [HaiController::class, 'index']);
 
+Route::get('/filter-cars', [DashboardController::class, 'filterCars']);
 Route::get('/get-provinces', [AuthControllerCustomer::class, 'getProvinces'])->name('getProvinces');
 Route::get('/get-cities', [AuthControllerCustomer::class, 'getCities'])->name('getCities');
 Route::get('/get-subdistricts', [AuthControllerCustomer::class, 'getSubdistricts'])->name('getSubdistricts');

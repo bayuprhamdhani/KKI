@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Car;
 
 class Company extends Model
 {
@@ -24,4 +25,9 @@ class Company extends Model
         'bank',
         'norek'
     ];
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
 }

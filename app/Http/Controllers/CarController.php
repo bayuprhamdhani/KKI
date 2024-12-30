@@ -63,8 +63,7 @@ class CarController extends Controller
             'price' => 'required',
             'pict' => 'required',
             'status' => 'required',
-            'company_logo' => 'required',
-            'company_name' => 'required'
+            'company' => 'required',
         ]);
         // dd($data);
         if ($request->file('pict')) {
@@ -78,8 +77,7 @@ class CarController extends Controller
             'price' =>$validatedData['price'],
             'pict' =>$validatedData['pict'],
             'status' =>$validatedData['status'],
-            'company_logo' =>$validatedData['company_logo'],
-            'company_name' =>$validatedData['company_name'],
+            'company' =>$validatedData['company']
         ]);
          
         return redirect()->route('cars.index')

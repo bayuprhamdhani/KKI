@@ -20,11 +20,11 @@ return new class extends Migration
             $table->integer('price');
             $table->string('pict');
             $table->unsignedBigInteger('status')->nullable();
-            $table->string('company_logo');
-            $table->string('company_name');
+            $table->unsignedBigInteger('company')->nullable();
             $table->rememberToken();
             $table->timestamps();
             
+            $table->foreign('company')->references('id')->on('companies');
             $table->foreign('transmisi')->references('id')->on('transmisies');
             $table->foreign('status')->references('id')->on('statuses');
 

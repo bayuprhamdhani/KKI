@@ -17,7 +17,7 @@
                           <div class="form-group row">
                               <label for="company" class="col-md-4 col-form-label text-right">Company</label>
                               <div class="col-md-6">
-                                  <input type="text" id="company" class="form-control" name="company" value="{{ $car->company_name }}" required autofocus>
+                                  <input type="text" id="company" class="form-control" name="company" value="{{ $car->company }}" required autofocus>
                                   @if ($errors->has('company'))
                                       <span class="text-danger">{{ $errors->first('company') }}</span>
                                   @endif

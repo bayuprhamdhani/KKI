@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('customer');
-            $table->string('company');
-            $table->string('car');
+            $table->unsignedBigInteger('customer');
+            $table->unsignedBigInteger('car');
             $table->date('pick_up');
             $table->date('drop_off');
             $table->date('date_order');
@@ -23,6 +22,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
+            $table->foreign('customer')->references('id')->on('customers');
+            $table->foreign('car')->references('id')->on('cars');
         });
     }
 
