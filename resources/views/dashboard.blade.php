@@ -79,10 +79,10 @@
     </div>
 
     <div id="loading-spinner" class="text-center py-5 mt-5" style="display: none;">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
     </div>
+</div>
 
 </div>
 </div>
@@ -123,7 +123,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#province').on('change', function() {
         var provinceId = $(this).val();
-        let showProductSection = document.getElementById('showproduct');
+        let showProductSection = document.getElementById('carResults');
 
         if (provinceId) {
             $.ajax({
@@ -154,32 +154,40 @@ $(document).ready(function() {
 });
 </script>
 <script>
-    document.getElementById('city').addEventListener('change', function() {
-    let city = this.value;
-    let showProductSection = document.getElementById('showproduct');
-    let spinner = document.getElementById('loading-spinner');
+    document.getElementById('filterForm').addEventListener('submit', function(e) {
+        e.preventDefault();  // Hindari reload halaman
 
-    if (city === "") {
-        showProductSection.style.display = 'none';
-    } else {
-        showProductSection.style.display = 'none';
-        spinner.style.display = 'block';  // Tampilkan spinner saat loading
+        let city = document.getElementById('city').value;
+        let pickUp = document.getElementById('pick_up').value;
+        let dropOff = document.getElementById('drop_off').value;
+        let showProductSection = document.getElementById('carResults');
+        let spinner = document.getElementById('loading-spinner');
 
-        fetch(`/filter-cars?city=${city}`)
+        // Validasi tanggal
+        if (!city || !pickUp || !dropOff) {
+            alert('Please fill in all filters!');
+            return;
+        }
+
+        // Sembunyikan hasil sementara dan tampilkan spinner
+        showProductSection.style.display = 'none';
+        spinner.style.display = 'block';
+
+        // Kirim request dengan parameter kota dan tanggal
+        fetch(`/filter-cars?city=${city}&pick_up=${pickUp}&drop_off=${dropOff}`)
             .then(response => response.json())
             .then(data => {
-                showProductSection.innerHTML = data.html;
-                spinner.style.display = 'none';  // Sembunyikan spinner saat selesai
+                showProductSection.innerHTML = data.html;  // Tampilkan hasil mobil
+                spinner.style.display = 'none';  // Hilangkan spinner
                 showProductSection.style.display = 'flex';
             })
             .catch(error => {
                 console.error('Error:', error);
-                spinner.style.display = 'none';  // Sembunyikan spinner jika error
+                spinner.style.display = 'none';  // Hilangkan spinner jika error
             });
-    }
-});
-
+    });
 </script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const today = new Date();

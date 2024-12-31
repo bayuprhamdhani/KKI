@@ -78,7 +78,7 @@ class DashboardController extends Controller
                                     <h5 class="card-title fw-bold mt-1">' . $car->company . '</h5>
                                 </div>
                                 <div>
-                                    <a href="' . route('registerTransaction', ['id' => $car->id]) . '" class="btn btn-sm btn-warning mb-1">ORDER</a>
+                                    <a href="' . route('registerTransaction', ['id' => $car->id, 'pick_up' => $pick_up, 'drop_off' => $drop_off]) . '" class="btn btn-sm btn-warning mb-1">ORDER</a>
                                 </div>
                             </div>
                         </div>

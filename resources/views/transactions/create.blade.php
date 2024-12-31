@@ -13,55 +13,58 @@
                     @csrf
 
                           <h4 style="margin-left:0.7rem;">RENT ORDER</h4>
-                          <div class="form-group row mt-3">
-                              <label for="company" class="col-md-4 col-form-label text-right">Company</label>
-                              <div class="col-md-6">
-                                  <input type="text" id="company" class="form-control" name="company" value="{{ $car->company_name }}" required autofocus>
-                                  @if ($errors->has('company'))
-                                      <span class="text-danger">{{ $errors->first('company') }}</span>
-                                  @endif
-                              </div>
-                          </div>  
+
                           <div class="form-group row mt-3">
                               <label for="car" class="col-md-4 col-form-label text-right">Car</label>
+                              <div class="col-md-6 d-none">
+                                  <input type="text" id="car" class="form-control" name="car" value="{{ $car->id }}" readonly required autofocus>
+                                  @if ($errors->has('car'))
+                                      <span class="text-danger">{{ $errors->first('car') }}</span>
+                                  @endif
+                              </div>
                               <div class="col-md-6">
-                                  <input type="text" id="car" class="form-control" name="car" value="{{ $car->name }}" required autofocus>
+                                  <input type="text" id="car" class="form-control" name="car" value="{{ $car->name }}"disabled required autofocus>
                                   @if ($errors->has('car'))
                                       <span class="text-danger">{{ $errors->first('car') }}</span>
                                   @endif
                               </div>
                           </div>  
+                          <!-- Pick Up Date -->
                           <div class="form-group row mt-3">
                               <label for="pick_up" class="col-md-4 col-form-label text-right">Pick Up Date</label>
                               <div class="col-md-6">
-                                  <input type="date" id="pick_up" class="form-control" name="pick_up" required>
+                                  <input type="date" id="pick_up" class="form-control" name="pick_up" readonly required onchange="calculatePrice()">
                                   @if ($errors->has('pick_up'))
                                       <span class="text-danger">{{ $errors->first('pick_up') }}</span>
                                   @endif
                               </div>
                           </div>
+
+                          <!-- Drop Off Date -->
                           <div class="form-group row mt-3">
                               <label for="drop_off" class="col-md-4 col-form-label text-right">Drop Off Date</label>
                               <div class="col-md-6">
-                                  <input type="date" id="drop_off" class="form-control" name="drop_off" required>
+                                  <input type="date" id="drop_off" class="form-control" name="drop_off" readonly required onchange="calculatePrice()">
                                   @if ($errors->has('drop_off'))
                                       <span class="text-danger">{{ $errors->first('drop_off') }}</span>
                                   @endif
                               </div>
                           </div>
+
                           <div class="form-group row mt-3">
                               <label for="date_order" class="col-md-4 col-form-label text-right">Order Date</label>
                               <div class="col-md-6">
-                                  <input type="date" id="date_order" class="form-control" name="date_order" required>
+                                  <input type="date" id="date_order" class="form-control" name="date_order" readonly required>
                                   @if ($errors->has('date_order'))
                                       <span class="text-danger">{{ $errors->first('date_order') }}</span>
                                   @endif
                               </div>
                           </div>
+                          <!-- Price -->
                           <div class="form-group row mt-3 mb-5">
                               <label for="price" class="col-md-4 col-form-label text-right">Price</label>
                               <div class="col-md-6">
-                                  <input type="text" id="price" class="form-control" name="price" value="Rp {{ $car->price }}" required>
+                                  <input type="text" id="price" class="form-control" name="price" value="Rp {{ number_format($car->price) }}" readonly required>
                                   @if ($errors->has('price'))
                                       <span class="text-danger">{{ $errors->first('price') }}</span>
                                   @endif
@@ -232,8 +235,8 @@ document.getElementById('cvv').addEventListener('input', function (e) {
     // Menghapus karakter non-angka
     value = value.replace(/\D/g, '');
     // Batasi panjang input hanya 3 karakter
-    if (value.length > 3) {
-        value = value.substring(0, 3);
+    if (value.length > 4) {
+        value = value.substring(0, 4);
     }
     e.target.value = value;
 });
@@ -332,4 +335,49 @@ $(document).ready(function() {
     });
 });
 </script>
+<script>
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pickUpDate = urlParams.get('pick_up');
+    const dropOffDate = urlParams.get('drop_off');
+
+    // Jika parameter ada, isi input dengan tanggal tersebut
+    if (pickUpDate) {
+        document.getElementById('pick_up').value = pickUpDate;
+    }
+    if (dropOffDate) {
+        document.getElementById('drop_off').value = dropOffDate;
+    }
+
+    // Panggil fungsi untuk menghitung harga setelah tanggal dimasukkan
+    calculatePrice();
+};
+
+function calculatePrice() {
+    const pickUpDate = document.getElementById('pick_up').value;
+    const dropOffDate = document.getElementById('drop_off').value;
+
+    if (pickUpDate && dropOffDate) {
+        const pickUp = new Date(pickUpDate);
+        const dropOff = new Date(dropOffDate);
+
+        // Hitung selisih hari antara pick up dan drop off
+        const timeDiff = dropOff - pickUp;
+        const dayDiff = timeDiff / (1000 * 3600 * 24);  // Menghitung selisih hari
+
+        if (dayDiff >= 0) {
+            // Ambil harga per hari mobil (car price) dari server (seharusnya di-load dari backend)
+            const pricePerDay = {{ $car->price }};  // Mengambil harga per hari dari data mobil
+
+            // Hitung total harga
+            const totalPrice = dayDiff * pricePerDay;
+            document.getElementById('price').value = 'Rp ' + totalPrice.toLocaleString(); // Format harga dengan pemisah ribuan
+        } else {
+            document.getElementById('price').value = "Invalid date range";
+        }
+    }
+}
+
+</script>
+
 @endsection

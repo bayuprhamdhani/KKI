@@ -16,7 +16,6 @@ class Transaction extends Model
      */
     protected $fillable = [
         'customer',
-        'company',
         'car',
         'pick_up',
         'drop_off',
