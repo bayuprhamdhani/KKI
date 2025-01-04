@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Charts\UsersByRoleChart;
-use App\Models\Selling;
 use App\Models\User;
 use App\Models\Subdistrict;
 use App\Models\Service;
@@ -21,11 +19,9 @@ class DashboardController extends Controller
         $pick_up = $request->input('pick_up');
         $drop_off = $request->input('drop_off');
     
-        // Query mobil berdasarkan kota
         $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
                    ->where('companies.address', 'LIKE', "%{$city}%");
     
-        // Jika ada tanggal pick-up dan drop-off, tambahkan filter ketersediaan mobil
         if ($pick_up && $drop_off) {
             $cars = $cars->whereDoesntHave('transactions', function ($query) use ($pick_up, $drop_off) {
                 $query->where(function ($subQuery) use ($pick_up, $drop_off) {
@@ -39,10 +35,8 @@ class DashboardController extends Controller
             });
         }
     
-        // Ambil hasil filter mobil
         $cars = $cars->select('cars.*', 'companies.address', 'companies.name as company', 'companies.logo')->get();
     
-        // Kode untuk menghasilkan HTML untuk mobil yang difilter
         $html = '';
         if ($cars->isEmpty()) {
             $html = '<div class="col-12 text-center py-5">
@@ -51,12 +45,12 @@ class DashboardController extends Controller
         } else {
             foreach ($cars as $car) {
                 $transmisiText = $car->transmisi == 1 ? 'Manual' : ($car->transmisi == 2 ? 'Matic' : 'Error');
-    
-                $categoryColorClass = $car->status == 1 ? 'bg-success text-white' : 
-                                      ($car->status == 2 ? 'bg-danger text-white' : 'bg-dark text-white');
-    
-                $statusText = $car->status == 1 ? 'Available' : ($car->status == 2 ? 'Unavailable' : 'Error');
-    
+                
+                // Cek apakah user guest atau terautentikasi
+                $orderRoute = auth()->check() 
+                    ? route('registerTransaction2', ['id' => $car->id, 'pick_up' => $pick_up, 'drop_off' => $drop_off]) 
+                    : route('registerTransaction', ['id' => $car->id, 'pick_up' => $pick_up, 'drop_off' => $drop_off]);
+                
                 $html .= '
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 shadow-sm">
@@ -78,7 +72,7 @@ class DashboardController extends Controller
                                     <h5 class="card-title fw-bold mt-1">' . $car->company . '</h5>
                                 </div>
                                 <div>
-                                    <a href="' . route('registerTransaction', ['id' => $car->id, 'pick_up' => $pick_up, 'drop_off' => $drop_off]) . '" class="btn btn-sm btn-warning mb-1">ORDER</a>
+                                    <a href="' . $orderRoute . '" class="btn btn-sm btn-warning mb-1">ORDER</a>
                                 </div>
                             </div>
                         </div>
@@ -90,12 +84,13 @@ class DashboardController extends Controller
         return response()->json(['html' => $html]);
     }
     
+    
 
 
     /**
      * Display a listing of the resource.
      */
-    public function index(UsersByRoleChart $userChart)
+    public function index()
     {
         $cities = City::All();
         $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
@@ -106,8 +101,7 @@ class DashboardController extends Controller
         $subdistricts = Subdistrict::All();
         $services = Service::All();
         $user = User::count();
-        $sellings = Selling::count();
-        return view('dashboard', compact('cars', 'user', 'sellings','services','cities','provinces','countries','subdistricts'), ['chart' => $userChart->build()]);
+        return view('dashboard', compact('cars', 'user', 'services','cities','provinces','countries','subdistricts'));
     }
 
     /**

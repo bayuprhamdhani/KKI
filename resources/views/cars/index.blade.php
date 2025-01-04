@@ -54,20 +54,29 @@
                                 $statusText = 'Error';
                             }
                         @endphp
-                            <img src="{{ asset('storage/' . $car->company_logo) }}" class="card-img-top" style="width: 35px; height: 35px; object-fit: cover;">
-                            <span class="badge {{ $categoryColorClass }} fs-6 px-1 py-2">{{ $statusText }}</span>
-                            @can('company')
-                                <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-sm btn-warning mb-1">
-                                    Edit
-                                </a>
-                                <form action="{{ route('cars.destroy',$car->id) }}" method="POST" style="display: inline" onsubmit="return confirm('Do you really want to delete {{ $car->name }}?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger"><span class="text-muted">
-                                                    Delete
-                                                </span></button>
-                                        </form>
-                            @endcan
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex">
+                                <img src="{{ asset('storage/' . $car->company_logo) }}" class="card-img-top" style="width: 35px; height: 35px; object-fit: cover;">
+                                <h5 class="card-title fw-bold mt-1">{{ $car->company_name }}</h5>
+                            </div>
+                            <div>
+                                <span class="badge {{ $categoryColorClass }} fs-6 px-1 py-2">{{ $statusText }}</span>
+                                @can('company')
+                                    <a href="{{ route('cars.edit', $car->id) }}" class="ml-3 btn btn-sm btn-warning mb-1">
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('cars.destroy',$car->id) }}" method="POST" style="display: inline" onsubmit="return confirm('Do you really want to delete {{ $car->name }}?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger mb-1">
+                                            <span class="text-muted">
+                                                Delete
+                                            </span>
+                                        </button>
+                                    </form>
+                                @endcan
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>

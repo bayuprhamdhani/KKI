@@ -24,7 +24,7 @@
                           <div class="form-group row mt-3">
                               <label for="email_address" class="col-md-4 col-form-label text-right">E-Mail Address</label>
                               <div class="col-md-6">
-                                  <input type="text" id="email_address" class="form-control" name="email" required autofocus>
+                                  <input type="text" id="email" class="form-control" name="email" required autofocus>
                                   @if ($errors->has('email'))
                                       <span class="text-danger">{{ $errors->first('email') }}</span>
                                   @endif
@@ -44,7 +44,7 @@
                           <div class="form-group row mt-3">
                               <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
                               <div class="col-md-6">
-                                  <input type="text" id="contact" class="form-control" name="contact" required autofocus>
+                                  <input type="number" id="contact" class="form-control" name="contact" required autofocus>
                                   @if ($errors->has('contact'))
                                       <span class="text-danger">{{ $errors->first('contact') }}</span>
                                   @endif
@@ -129,16 +129,6 @@
                           </div>
 
                           <div class="form-group row mt-3">
-                              <label for="card_owner" class="col-md-4 col-form-label text-right">Card Owner</label>
-                              <div class="col-md-6">
-                                  <input type="text" id="card_owner" class="form-control" name="card_owner" required autofocus>
-                                  @if ($errors->has('card_owner'))
-                                      <span class="text-danger">{{ $errors->first('card_owner') }}</span>
-                                  @endif
-                              </div>
-                          </div>
-
-                          <div class="form-group row mt-3">
                               <label for="card_expired" class="col-md-4 col-form-label text-right">Card Expired</label>
                               <div class="col-md-6">
                                   <input type="date" id="card_expired" class="form-control" name="card_expired" required autofocus>
@@ -151,7 +141,7 @@
                           <div class="form-group row mt-3">
                             <label for="cvv" class="col-md-4 col-form-label text-right">CVV</label>
                             <div class="col-md-6">
-                                <input type="text" id="cvv" class="form-control" name="cvv" 
+                                <input type="number" id="cvv" class="form-control" name="cvv" 
                                     maxlength="3" inputmode="numeric" pattern="\d{3}" title="Please enter exactly 3 digits" required autofocus>
                                 @if ($errors->has('cvv'))
                                     <span class="text-danger">{{ $errors->first('cvv') }}</span>
@@ -289,8 +279,8 @@ document.getElementById('cvv').addEventListener('input', function (e) {
     // Menghapus karakter non-angka
     value = value.replace(/\D/g, '');
     // Batasi panjang input hanya 3 karakter
-    if (value.length > 3) {
-        value = value.substring(0, 3);
+    if (value.length > 4) {
+        value = value.substring(0, 4);
     }
     e.target.value = value;
 });

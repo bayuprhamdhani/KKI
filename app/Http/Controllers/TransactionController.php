@@ -20,10 +20,46 @@ class TransactionController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index()
-    {
-        return view('transactions.index');
-    }
+     public function index()
+     {
+         // Ambil user yang sedang login
+         $user = Auth::user();
+     
+         // Jika role_id == 1, ambil semua data cars yang id-nya ada di tabel transactions
+         if ($user->role_id == 1) {
+             $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
+                 ->join('transactions', 'transactions.car', '=', 'cars.id')
+                 ->select(
+                     'cars.id', 'cars.name as car_name', 'cars.pict', 
+                     'companies.logo', 'companies.name as company',
+                     'transactions.pick_up', 'transactions.drop_off', 'transactions.date_order', 'transactions.price'
+                 )
+                 ->get();
+         } else {
+             // Jika role_id bukan 1, filter berdasarkan company-name dan ID mobil di transaksi
+             $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
+                 ->join('transactions', 'transactions.car', '=', 'cars.id')
+                 ->select(
+                     'cars.id', 'cars.name as car_name', 'cars.pict', 
+                     'companies.logo', 'companies.name as company',
+                     'transactions.pick_up', 'transactions.drop_off', 'transactions.date_order', 'transactions.price'
+                 )
+                 ->where('transactions.customer', $user->user)
+                 ->get();
+         }
+     
+         // Ambil data status dan transmisi
+         $statuses = Status::all();
+         $transmisies = Transmisi::all();
+         $transactions = Transaction::all();
+     
+         // Kirim data ke view
+         return view('transactions.index', compact('cars', 'transmisies', 'statuses', 'transactions'));
+     }
+     
+     
+
+     
     
 
     /**

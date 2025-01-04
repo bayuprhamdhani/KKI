@@ -57,7 +57,7 @@
     <div class="form-group row mt-3">
         <label for="price" class="col-md-4 col-form-label text-right">Price</label>
         <div class="col-md-6">
-            <input type="text" id="price" class="form-control" name="price" required onkeyup="formatRupiah(this)">
+            <input type="text" id="price" class="form-control" name="price">
             @if ($errors->has('price'))
                 <span class="text-danger">{{ $errors->first('price') }}</span>
             @endif
@@ -94,10 +94,10 @@
         </div>
     </div>
 
-    <div class="form-group row mt-3 d-none">
+    <div class="form-group row mt-3">
         <label for="company" class="col-md-4 col-form-label text-right">Company</label>
         <div class="col-md-6">
-            <input type="text" id="company" class="form-control" name="company" value="{{ auth()->user()->id }}" required>
+            <input type="text" id="company" class="form-control" name="company" value="{{ auth()->user()->user }}" required>
             @if ($errors->has('company'))
                 <span class="text-danger">{{ $errors->first('company') }}</span>
             @endif

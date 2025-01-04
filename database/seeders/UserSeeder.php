@@ -12,22 +12,22 @@ class UserSeeder extends Seeder
      */          
     private $users = [
         ["Bayu", "bayuraina@gmail.com", "123456", 1, ""],
-        ["Assa", "assa@gmail.com", "123456", 2, "company-logo/assa.png"],
-        ["Autonet", "autonet@gmail.com", "123456", 2, "company-logo/autonet.jpg"],
-        ["Budiman", "budiman@gmail.com", "123456", 2, "company-logo/budiman.png"],
-        ["Doa Ibu", "doaibu@gmail.com", "123456", 2, "company-logo/doa ibu.jpg"],
-        ["Trinanda Zalsa", "trinanda@gmail.com", "123456", 3, ""],
-        ["Rainna Shofa", "raina@gmail.com", "123456", 3, ""],
-        ["Esa Albi", "esa@gmail.com", "123456", 3, ""],
-        ["Naufal Elqolbi", "naufal@gmail.com", "123456", 3, ""],
-        ["Fikri Ardian", "fikri@gmail.com", "123456", 3, ""]
+        ["1", "assa@gmail.com", "123456", 2, "company-logo/assa.png"],
+        ["2", "autonet@gmail.com", "123456", 2, "company-logo/autonet.jpg"],
+        ["3", "budiman@gmail.com", "123456", 2, "company-logo/budiman.png"],
+        ["4", "doaibu@gmail.com", "123456", 2, "company-logo/doa ibu.jpg"],
+        ["1", "trinanda@gmail.com", "123456", 3, ""],
+        ["2", "raina@gmail.com", "123456", 3, ""],
+        ["3", "esa@gmail.com", "123456", 3, ""],
+        ["4", "naufal@gmail.com", "123456", 3, ""],
+        ["5", "fikri@gmail.com", "123456", 3, ""]
     ];
 
     public function run(): void
     {
         foreach ($this->users as $user) {
             \App\Models\User::create([
-                "name" => $user[0],
+                "user" => $user[0],
                 "email" => $user[1],
                 "password" => $user[2],
                 "role_id" => $user[3],

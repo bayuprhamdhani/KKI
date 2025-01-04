@@ -22,17 +22,23 @@ class Car extends Model
         'price',
         'pict',
         'status',
-        'company'
+        'company'  // Kolom company (ID perusahaan)
     ];
 
-// app/Models/Car.php
-public function company() {
-    return $this->belongsTo(Company::class, 'company', 'id');  // 'company' adalah foreign key di tabel cars
-}
-// app/Models/Car.php
-public function transactions()
-{
-    return $this->hasMany(Transaction::class, 'car', 'id');
-}
+    // Relasi ke Company
+    public function company() {
+        return $this->belongsTo(Company::class, 'company', 'id');
+    }
 
+    // Relasi ke Transaction
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'car', 'id');
+    }
+
+    // Akses Nama Perusahaan Langsung (Tanpa Relasi)
+    public function getCompanyNameAttribute()
+    {
+        return $this->company()->first()->name ?? 'N/A';
+    }
 }

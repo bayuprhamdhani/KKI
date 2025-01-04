@@ -61,7 +61,7 @@
     
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('dashboard') }}">POSTECH</a>
+        <a class="navbar-brand" href="{{ route('dashboard') }}">e-Logi</a>
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -100,6 +100,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('transactions.index') }}">Order History</a>
+                        </li>
                     @endcan
                     @can('company')
                     <li class="nav-item">
@@ -108,8 +111,10 @@
                     <li class="nav-item">
                             <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
                     </li>
+                    @endcan
+                    @can('customer')
                     <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cars.create') }}">Add Car</a>
+                            <a class="nav-link" href="{{ route('transactions.index') }}">Order History</a>
                     </li>
                     @endcan
                         <li class="nav-item">

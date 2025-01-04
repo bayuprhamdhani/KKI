@@ -30,11 +30,12 @@ Route::post('post-registrationCompany', [AuthControllerCompany::class, 'postRegi
 Route::get('registrationCustomer', [AuthControllerCustomer::class, 'registration'])->name('registerCustomer');
 Route::post('post-registrationCustomer', [AuthControllerCustomer::class, 'postRegistration'])->name('registerCustomer.post');
 Route::get('registrationTransaction/{id}', [AuthControllerTransaction::class, 'registration'])->name('registerTransaction');
+Route::get('registrationTransaction2/{id}', [AuthControllerTransaction::class, 'registration2'])->name('registerTransaction2');
 Route::post('post-registrationTransaction', [AuthControllerTransaction::class, 'postRegistration'])->name('registerTransaction.post');
+Route::post('post-registrationTransaction2', [AuthControllerTransaction::class, 'postRegistration2'])->name('registerTransaction.post2');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('customers', CustomerController::class);
-Route::resource('transactions', TransactionController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
@@ -48,6 +49,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('companies', CompanyController::class)->middleware('admin');
     Route::resource('cars', CarController::class)->middleware('company');
+    Route::resource('transactions', TransactionController::class);
+    Route::resource('customers', CustomerController::class);
     Route::resource('products', ProductController::class);
     Route::resource('sellings', SellingController::class);
     Route::get('report/sellings', [SellingController::class, 'report'])->name('sellings-report');

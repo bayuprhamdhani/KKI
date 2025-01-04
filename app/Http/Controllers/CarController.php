@@ -25,11 +25,18 @@ class CarController extends Controller
     
         // Jika role_id == 1, ambil semua data cars
         if ($user->role_id == 1) {
-            $cars = Car::all();
+            $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
+            ->select('cars.*', 'companies.address', 'companies.name as company_name', 'companies.logo as company_logo')
+            ->get();
         } else {
             // Jika role_id bukan 1, filter berdasarkan company-name
-            $cars = Car::where('company_name', $user->name)->get();
+            $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
+            ->select('cars.*', 'companies.address', 'companies.name as company_name', 'companies.logo as company_logo')
+            ->where('companies.id', $user->user)
+            ->get();
+        
         }
+        
     
         // Ambil data status dan transmisi
         $statuses = Status::all();

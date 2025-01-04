@@ -106,28 +106,20 @@ class AuthControllerCustomer extends Controller
             'subdistrict' => 'required',
             'card_type' => 'required',
             'card_number' => ['required', 'numeric'],
-            'card_owner' => 'required',
             'card_expired' => 'required',
-            'cvv' => ['required', 'numeric', 'digits:3'],
+            'cvv' => ['required', 'numeric', 'digits:4'],
         ]);
 
         DB::beginTransaction(); // Mulai Transaction
 
         try {
-            // Simpan ke Tabel User
-            $user = User::create([
+
+
+            // Simpan ke Tabel Customer
+            $customer = Customer::create([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
-                'role_id' => 3, // Set role ke "customer"
-                'path' => "",
-            ]);
-
-            // Simpan ke Tabel Customer
-            Customer::create([
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-                'password' => $user->password, // Gunakan password dari User
                 'contact' => $validatedData['contact'],
                 'country' => $validatedData['country'],
                 'province' => $validatedData['province'],
@@ -137,6 +129,15 @@ class AuthControllerCustomer extends Controller
                 'card_number' => $validatedData['card_number'],
                 'card_expired' => $validatedData['card_expired'],
                 'cvv' => $validatedData['cvv'],
+            ]);
+
+                        // Simpan ke Tabel User
+            $user = User::create([
+                'user' => $customer->id,
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'role_id' => 3, // Set role ke "customer"
+                'path' => "",
             ]);
 
             DB::commit(); // Commit Transaction

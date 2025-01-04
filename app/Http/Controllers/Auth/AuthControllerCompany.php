@@ -46,24 +46,25 @@ class AuthControllerCompany extends Controller
             $data['logo'] = $request->file('logo')->store('company-logo', 'public');
         }
 
-        // Simpan ke Tabel User
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role_id' => 2, // Set role ke "company"
-            'path' => $data['logo']
-        ]);
-
         // Simpan ke Tabel Company
         $company = Company::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'address' => $data['address'],
+            'status' => 1,
             'logo' => $data['logo'],
             'bank' => $data['bank'],
             'norek' => $data['norek']
+        ]);
+
+        // Simpan ke Tabel User
+        $user = User::create([
+            'user' => $company->id,
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role_id' => 2, // Set role ke "company"
+            'path' => $data['logo']
         ]);
 
         // Commit Transaction

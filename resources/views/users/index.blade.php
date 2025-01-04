@@ -13,12 +13,14 @@
                 <div class="card-header">{{ __('Table Users') }}</div>
 
                 <div class="card-body">
+<!-- 
                     <a href="{{ route('users.create') }}" class="btn btn-sm btn-secondary">
                         Tambah User
                     </a>
                     <a href="{{ route('user-export') }}" class="btn btn-sm btn-primary">
                         Export User to Excel
                     </a>
+-->
                     <a id="importButton" class="btn btn-sm btn-warning">
                         Import User
                     </a>
