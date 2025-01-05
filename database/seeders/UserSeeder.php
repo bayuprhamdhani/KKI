@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
         ["2", "autonet@gmail.com", "123456", 2, "company-logo/autonet.jpg"],
         ["3", "budiman@gmail.com", "123456", 2, "company-logo/budiman.png"],
         ["4", "doaibu@gmail.com", "123456", 2, "company-logo/doa ibu.jpg"],
+        ["5", "monas@gmail.com", "123456", 2, "company-logo/monas.jpg"],
         ["1", "trinanda@gmail.com", "123456", 3, ""],
         ["2", "raina@gmail.com", "123456", 3, ""],
         ["3", "esa@gmail.com", "123456", 3, ""],

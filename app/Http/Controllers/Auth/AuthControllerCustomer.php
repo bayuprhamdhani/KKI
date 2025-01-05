@@ -142,7 +142,7 @@ class AuthControllerCustomer extends Controller
 
             DB::commit(); // Commit Transaction
 
-            return redirect('dashboard')->with('success', 'Great! You have Successfully registered');
+            return redirect('login')->with('success', 'Great! You have Successfully registered');
         } catch (\Throwable $e) {
             DB::rollBack(); // Rollback jika ada kesalahan
 

@@ -8,3 +8,26 @@ $(document).ready(function() {
       }
     });
   });
+
+  $(document).ready(function() {
+    $('#chartTransaction').on('change', function() {
+      const selectedValue = $(this).val();
+      
+      // Daftar elemen yang akan disembunyikan atau ditampilkan
+      const elements = {
+        'Car': '#TbyCar',
+        'Month': '#TbyMonth',
+        'Company': '#TbyCompany',
+        'Customer': '#TbyCustomer'
+      };
+  
+      // Sembunyikan semua elemen terlebih dahulu
+      $('#TbyCar, #TbyMonth, #TbyCompany, #TbyCustomer').hide();
+  
+      // Tampilkan elemen yang sesuai dengan nilai yang dipilih
+      if (elements[selectedValue]) {
+        $(elements[selectedValue]).show();
+      }
+    });
+  });
+  

@@ -14,7 +14,7 @@
 
                           <h4 style="margin-left:0.7rem;">RENT ORDER</h4>
 
-                          <div class="form-group row mt-3">
+                          <div class="form-group row mt-3 d-none">
                               <label for="customer" class="col-md-4 col-form-label text-right">Customer</label>
                               <div class="col-md-6">
                                   <input type="text" id="customer" class="form-control" name="customer" value="{{ auth()->user()->user }}" readonly required autofocus>

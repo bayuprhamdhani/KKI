@@ -30,7 +30,7 @@
     <div class="form-group row mt-3">
         <label for="qty" class="col-md-4 col-form-label text-right">Chair Quantity</label>
         <div class="col-md-6">
-            <input type="text" id="qty" class="form-control" name="qty" required>
+            <input type="number" id="qty" class="form-control" name="qty" required>
             @if ($errors->has('qty'))
                 <span class="text-danger">{{ $errors->first('qty') }}</span>
             @endif
@@ -57,7 +57,7 @@
     <div class="form-group row mt-3">
         <label for="price" class="col-md-4 col-form-label text-right">Price</label>
         <div class="col-md-6">
-            <input type="text" id="price" class="form-control" name="price">
+            <input type="number" id="price" class="form-control" name="price">
             @if ($errors->has('price'))
                 <span class="text-danger">{{ $errors->first('price') }}</span>
             @endif
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <div class="form-group row mt-3">
+    <div class="form-group row mt-3 d-none">
         <label for="company" class="col-md-4 col-form-label text-right">Company</label>
         <div class="col-md-6">
             <input type="text" id="company" class="form-control" name="company" value="{{ auth()->user()->user }}" required>

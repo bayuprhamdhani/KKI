@@ -81,44 +81,39 @@
                             <a class="nav-link" href="{{ route('registerCustomer') }}">Register Customer</a>
                         </li>
                     @else
-                    @can('admin')
+                        @can('admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users.index') }}">User</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('companies.index') }}">Companies</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('registerCompany') }}">Add Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('customers.index') }}">Customer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('registerCustomer') }}">Add Customer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
+                            </li>
+                        @endcan
+                        @can('company')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.index') }}">User</a>
-                        </li>
+                                    <a class="nav-link" href="{{ route('cars.create') }}">Add Car</a>
+                            </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('companies.index') }}">Companies</a>
+                                <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('registerCompany') }}">Add Company</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('customers.index') }}">Customer</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('registerCustomer') }}">Add Customer</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('transactions.index') }}">Order History</a>
-                        </li>
-                    @endcan
-                    @can('company')
+                        @endcan
                     <li class="nav-item">
-                                <a class="nav-link" href="{{ route('cars.create') }}">Add Car</a>
-                        </li>
-                    <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cars.index') }}">Cars</a>
+                        <a class="nav-link" href="{{ route('transactions.index') }}">Order History</a>
                     </li>
-                    @endcan
-                    @can('customer')
                     <li class="nav-item">
-                            <a class="nav-link" href="{{ route('transactions.index') }}">Order History</a>
-                    </li>
-                    @endcan
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}">Logout</a>
+                        <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                         </li>
                     @endguest
                 </ul>

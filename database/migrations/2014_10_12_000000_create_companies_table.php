@@ -17,15 +17,23 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('address');
+            $table->unsignedBigInteger('country');
+            $table->unsignedBigInteger('province');
+            $table->unsignedBigInteger('city');
+            $table->unsignedBigInteger('subdistrict');
             $table->unsignedBigInteger('status');
             $table->string('logo');
-            $table->string('bank');
+            $table->unsignedBigInteger('bank');
             $table->string('norek');
             $table->rememberToken();
             $table->timestamps();
 
+            $table->foreign('bank')->references('id')->on('banks');
             $table->foreign('status')->references('id')->on('statuses');
+            $table->foreign('country')->references('id')->on('countries');
+            $table->foreign('province')->references('id')->on('provinces');
+            $table->foreign('city')->references('id')->on('cities');
+            $table->foreign('subdistrict')->references('id')->on('subdistricts');
         });
     }
 

@@ -42,14 +42,77 @@
                           </div>
 
                           <div class="form-group row mt-3">
-                              <label for="address" class="col-md-4 col-form-label text-right">Address</label>
+                                <label for="password_confirmation" class="col-md-4 col-form-label text-right">Confirm Password</label>
+                                <div class="col-md-6">
+                                    <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" required>
+                                    @if ($errors->has('password_confirmation'))
+                                        <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+
+                          <div class="form-group row mt-3">
+                              <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
                               <div class="col-md-6">
-                                  <input type="text" id="address" class="form-control" name="address" required autofocus>
-                                  @if ($errors->has('address'))
-                                      <span class="text-danger">{{ $errors->first('address') }}</span>
+                                  <input type="number" id="contact" class="form-control" name="contact" required autofocus>
+                                  @if ($errors->has('contact'))
+                                      <span class="text-danger">{{ $errors->first('contact') }}</span>
                                   @endif
                               </div>
                           </div>
+
+                          <div class="form-group row mt-3">
+                              <label for="country" class="col-md-4 col-form-label text-right">Country</label>
+                              <div class="col-md-6">
+                              <select class="form-select" id="country" name="country" required>
+                                        <option value="">Choose</option>
+                                        @foreach($countries as $val)
+                                            <option value="{{ $val->id }}">{{ $val->country }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('country'))
+                                        <span class="text-danger">{{ $errors->first('country') }}</span>
+                                    @endif
+                              </div>
+                          </div>
+
+<div class="form-group row mt-3">
+    <label for="province" class="col-md-4 col-form-label text-right">Province</label>
+    <div class="col-md-6">
+        <select class="form-select" id="province" name="province" required>
+            <option value="">Choose</option>
+        </select>
+        @if ($errors->has('province'))
+            <span class="text-danger">{{ $errors->first('province') }}</span>
+        @endif
+    </div>
+</div>
+
+<div class="form-group row mt-3">
+    <label for="city" class="col-md-4 col-form-label text-right">City</label>
+    <div class="col-md-6">
+        <select class="form-select" id="city" name="city" required>
+            <option value="">Choose</option>
+        </select>
+        @if ($errors->has('city'))
+            <span class="text-danger">{{ $errors->first('city') }}</span>
+        @endif
+    </div>
+</div>
+
+
+<div class="form-group row mt-3">
+    <label for="subdistrict" class="col-md-4 col-form-label text-right">Subdistrict</label>
+    <div class="col-md-6">
+        <select class="form-select" id="subdistrict" name="subdistrict" required>
+            <option value="">Choose</option>
+        </select>
+        @if ($errors->has('subdistrict'))
+            <span class="text-danger">{{ $errors->first('subdistrict') }}</span>
+        @endif
+    </div>
+</div>
 
                             <div class="form-group row mt-3">
                               <label for="logo" class="col-md-4 col-form-label text-right">Logo</label>
@@ -67,17 +130,22 @@
                           <div class="form-group row mt-3">
                               <label for="bank" class="col-md-4 col-form-label text-right">Bank</label>
                               <div class="col-md-6">
-                                  <input type="text" id="bank" class="form-control" name="bank" required autofocus>
-                                  @if ($errors->has('bank'))
-                                      <span class="text-danger">{{ $errors->first('bank') }}</span>
-                                  @endif
+                              <select class="form-select" id="bank" name="bank" required>
+                                        <option value="">Choose</option>
+                                        @foreach($banks as $val)
+                                            <option value="{{ $val->id }}">{{ $val->bank }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('bank'))
+                                        <span class="text-danger">{{ $errors->first('bank') }}</span>
+                                    @endif
                               </div>
                           </div>
 
                           <div class="form-group row mt-3">
                               <label for="norek" class="col-md-4 col-form-label text-right">Nomor Rekening</label>
                               <div class="col-md-6">
-                                  <input type="text" id="norek" class="form-control" name="norek" required autofocus>
+                                  <input type="number" id="norek" class="form-control" name="norek" required autofocus>
                                   @if ($errors->has('norek'))
                                       <span class="text-danger">{{ $errors->first('norek') }}</span>
                                   @endif
@@ -112,5 +180,98 @@
 
         }
     }
+</script>
+<script>
+$(document).ready(function() {
+    // Handle country change
+    $('#country').on('change', function() {
+        var countryId = $(this).val();
+
+        if (countryId) {
+            $.ajax({
+                url: "{{ route('getProvinces') }}",
+                type: "GET",
+                data: { country_id: countryId },
+                success: function(response) {
+                    console.log('Provinces:', response); // Debug response
+                    $('#province').empty();
+                    $('#province').append('<option value="">Choose</option>');
+                    $.each(response, function(index, province) {
+                        $('#province').append('<option value="' + province.id + '">' + province.province + '</option>');
+                    });
+                },
+                error: function(xhr) {
+                    console.log('Error:', xhr.responseJSON); // Debug error
+                    alert('Error loading provinces: ' + xhr.responseJSON.error);
+                }
+            });
+        } else {
+            $('#province').empty().append('<option value="">Choose</option>');
+            $('#city').empty().append('<option value="">Choose</option>');
+            $('#subdistrict').empty().append('<option value="">Choose</option>');
+        }
+    });
+});
+</script>
+<script>//city
+$(document).ready(function() {
+    $('#province').on('change', function() {
+        var provinceId = $(this).val();
+
+        if (provinceId) {
+            $.ajax({
+                url: "{{ route('getCities') }}", // Route yang dituju
+                type: "GET",
+                data: { province_id: provinceId }, // Kirim province_id
+                success: function(response) {
+                    console.log('Success:', response); // Debug response dari server
+                    $('#city').empty();
+                    $('#city').append('<option value="">Choose</option>');
+                    $.each(response, function(index, city) {
+                        $('#city').append('<option value="' + city.id + '">' + city.city + '</option>');
+                    });
+                },
+                error: function(xhr) {
+                    console.log('Error:', xhr.responseJSON); // Debug error
+                    alert('Error: ' + xhr.responseJSON.error);
+                }
+            });
+        } else {
+            $('#city').empty().append('<option value="">Choose</option>');
+            $('#subdistrict').empty().append('<option value="">Choose</option>');
+        }
+    });
+});
+
+</script>
+<script>
+$(document).ready(function() {
+    // Handle city change
+    $('#city').on('change', function() {
+        var cityId = $(this).val();
+
+        if (cityId) {
+            $.ajax({
+                url: "{{ route('getSubdistricts') }}",
+                type: "GET",
+                data: { city_id: cityId },
+                success: function(response) {
+                    console.log('Subdistricts:', response); // Debug response
+                    $('#subdistrict').empty();
+                    $('#subdistrict').append('<option value="">Choose</option>');
+                    $.each(response, function(index, subdistrict) {
+                        $('#subdistrict').append('<option value="' + subdistrict.id + '">' + subdistrict.subdistrict + '</option>');
+                    });
+                },
+                error: function(xhr) {
+                    console.log('Error:', xhr.responseJSON); // Debug error
+                    alert('Error loading subdistricts: ' + xhr.responseJSON.error);
+                }
+            });
+        } else {
+            $('#subdistrict').empty().append('<option value="">Choose</option>');
+        }
+    });
+});
 </script>
 @endsection

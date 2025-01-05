@@ -28,7 +28,6 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Full Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Role</th>
                                 <th scope="col">Action</th>
@@ -41,7 +40,6 @@
                             <?php $no++ ?>
                             <tr>
                                 <th scope="row">{{ $no }}</th>
-                                <td>{{$row->name}}</td>
                                 <td>{{$row->email}}</td>
                         @php
                             $roleText = '';

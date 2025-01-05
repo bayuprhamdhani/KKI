@@ -165,7 +165,7 @@ public function postRegistration2(Request $request): RedirectResponse
 
         DB::commit(); // Commit Transaction
 
-        return redirect('dashboard')->with('success', 'Great! You have Successfully registered');
+        return redirect('transactions')->with('success', 'Great! You have Successfully registered');
     } catch (\Throwable $e) {
         DB::rollBack();
         dd($e->getMessage()); // Debug langsung

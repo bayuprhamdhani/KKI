@@ -26,12 +26,12 @@ class CarController extends Controller
         // Jika role_id == 1, ambil semua data cars
         if ($user->role_id == 1) {
             $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
-            ->select('cars.*', 'companies.address', 'companies.name as company_name', 'companies.logo as company_logo')
+            ->select('cars.*', 'companies.city', 'companies.name as company_name', 'companies.logo as company_logo')
             ->get();
         } else {
             // Jika role_id bukan 1, filter berdasarkan company-name
             $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
-            ->select('cars.*', 'companies.address', 'companies.name as company_name', 'companies.logo as company_logo')
+            ->select('cars.*', 'companies.city', 'companies.name as company_name', 'companies.logo as company_logo')
             ->where('companies.id', $user->user)
             ->get();
         

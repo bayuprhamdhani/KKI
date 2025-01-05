@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Charts\UsersByRoleChart;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Country;
+use App\Models\Province;
+use App\Models\City;
+use App\Models\Subdistrict;
+use App\Models\Bank;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +24,12 @@ class AuthControllerCompany extends Controller
 {
     public function registration(): View
     {
-        return view('auth.registrationCompany');
+        $countries = Country::all();
+        $provinces = Province::all();
+        $cities = City::all();
+        $banks = Bank::all();
+        $subdistricts = Subdistrict::all();
+        return view('auth.registrationCompany', compact('countries', 'provinces','cities','subdistricts', 'banks'));
     }
 
 
@@ -29,12 +39,17 @@ class AuthControllerCompany extends Controller
     $request->validate([
         'name' => 'required',
         'email' => 'required|email|unique:users|unique:companies',
-        'password' => 'required|min:6',
-        'address' => 'required',
+        'password' => 'required|min:6|confirmed',
+        'password_confirmation' => 'required',
+        'country' => 'required',
+        'province' => 'required',
+        'city' => 'required',
+        'subdistrict' => 'required',
         'logo' => 'required|image|file|max:1024',
         'bank' => 'required',
         'norek' => 'required'
     ]);
+    
 
     try {
         // Mulai Transaction
@@ -51,7 +66,10 @@ class AuthControllerCompany extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'address' => $data['address'],
+            'country' => $data['country'],
+            'province' => $data['province'],
+            'city' => $data['city'],
+            'subdistrict' => $data['subdistrict'],
             'status' => 1,
             'logo' => $data['logo'],
             'bank' => $data['bank'],
@@ -70,7 +88,7 @@ class AuthControllerCompany extends Controller
         // Commit Transaction
         DB::commit();
 
-        return redirect("dashboard")->withSuccess('Great! You have Successfully registered');
+        return redirect("login")->withSuccess('Great! You have Successfully registered');
     } catch (\Exception $e) {
         // Rollback jika ada kesalahan
         DB::rollBack();

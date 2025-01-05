@@ -8,83 +8,252 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-
-        <div class="card">
-    <div class="card-header">{{ __('Dashboard') }}</div>
-    <div class="card-body">
-        <h1 class="logo-text" style="font-weight: bold; font-size: 40px;">Travel & Agent</h1>
-        <h5 class="">Around The World With -eLOGI !</h5>
-        <div style="display: flex;">
-            <div>
-                <h6>SERVICE</h6>
-                <select class="custom-select" id="service" name="service" aria-label="service" style="width: 120px;">
-                    <option value="">CHOOSE</option>
-                    @foreach($services as $val)
-                        <option value="{{$val->Service_Name}}">{{$val->Service_Name}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div id="RENT" style="display: none;">
-                <div style="display: flex;">
-                    <div>
-                        <h6 style="margin-left: 15px;" id="lcity">COUNTRY</h6>
-                        <select class="custom-select" id="country" name="country" aria-label="country" style="width: 130px; margin-left: 15px;">
-                            <option value="">CHOOSE</option>
-                            @foreach($countries as $val)
-                                <option value="{{ $val->id }}">{{ $val->country }}</option>
-                            @endforeach
-                        </select>
+            <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-body rounded shadow">
+                        @guest
+                            <h1 class="logo-text" style="font-weight: bold; font-size: 40px;">Travel & Agent</h1>
+                            <h5 class="">Around The World With -eLOGI !</h5>
+                            <div style="display: flex;">
+                                <div>
+                                    <h6>SERVICE</h6>
+                                    <select class="custom-select" id="service" name="service" aria-label="service" style="width: 120px;">
+                                        <option value="">CHOOSE</option>
+                                        @foreach($services as $val)
+                                            <option value="{{$val->Service_Name}}">{{$val->Service_Name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id="RENT" style="display: none;">
+                                    <div style="display: flex;">
+                                        <div>
+                                            <h6 style="margin-left: 15px;" id="lcity">COUNTRY</h6>
+                                            <select class="custom-select" id="country" name="country" aria-label="country" style="width: 130px; margin-left: 15px;">
+                                                <option value="">CHOOSE</option>
+                                                @foreach($countries as $val)
+                                                    <option value="{{ $val->id }}">{{ $val->country }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <h6 style="margin-left: 15px;">PROVINCE</h6>
+                                            <select class="custom-select" id="province" name="province" aria-label="province" style="width: 130px; margin-left: 15px;">
+                                                <option value="">Choose</option>
+                                            </select>
+                                        </div>
+                                        <form id="filterForm" class="d-flex">
+                                            <div class="form-group">
+                                                <h6 style="margin-left: 15px;">CITY</h6>
+                                                <select class="custom-select" id="city" name="city" aria-label="city" style="width: 130px; margin-left: 15px;">
+                                                    <option value="">Select City</option>
+                                                    @foreach ($cities as $city)
+                                                        <option value="{{ $city->name }}">{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <!-- Input Tanggal Pick-up -->
+                                            <div class="form-group" style="margin-left: 15px;">
+                                                <h6 >Pick Up Date</h6>
+                                                <input type="date" id="pick_up" name="pick_up" class="form-control">
+                                            </div>
+                                            <!-- Input Tanggal Drop-off -->
+                                            <div class="form-group" style="margin-left: 15px;">
+                                                <h6 >Drop Off Date</h6>
+                                                <input type="date" id="drop_off" name="drop_off" class="form-control">
+                                            </div>
+                                            <button type="submit" class="btn btn-warning" style="margin-left: 15px;">Show Cars</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            @can('admin')
+                                <div class="row justify-content-between" id="dashboard">
+                                    <div class="col-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Car</h5>
+                                                <h1 class="card-subtitle mb-2 text-body-secondary">{{ $carTotal }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Company</h5>
+                                                <h1 class="card-subtitle mb-2 text-body-secondary">{{ $companyTotal }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Customer</h5>
+                                                <h1 class="card-subtitle mb-2 text-body-secondary">{{ $customerTotal }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Transaction</h5>
+                                                <h1 class="card-subtitle mb-2 text-body-secondary">{{ $transactionTotal }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">User</h5>
+                                                <h1 class="card-subtitle mb-2 text-body-secondary">{{ $user }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex mt-3">
+                                    <h1>Transaction Graphict by</h1>
+                                    <select class="custom-select mt-2" id="chartTransaction" name="chartTransaction" aria-label="chartTransaction" style="width: 120px; margin-left: 10px;">
+                                        <option value="">CHOOSE</option>
+                                        @foreach($charts as $val)
+                                            <option value="{{$val->chart}}">{{$val->chart}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endcan
+                            @can('company')
+                                <div class="row" id="dashboard">
+                                    <div class="col-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Car</h5>
+                                                <h1 class="card-subtitle mb-2 text-body-secondary">{{ $carTotal }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Transaction</h5>
+                                                <h1 class="card-subtitle mb-2 text-body-secondary">{{ $transactionTotal }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex mt-3">
+                                    <h1>Transaction Graphict by</h1>
+                                    <select class="custom-select mt-2" id="chartTransaction" name="chartTransaction" aria-label="chartTransaction" style="width: 120px; margin-left: 10px;">
+                                        <option value="">CHOOSE</option>
+                                        @foreach($charts as $val)
+                                            <option value="{{$val->chart}}">{{$val->chart}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endcan
+                            @can('customer')
+                            <h1 class="logo-text" style="font-weight: bold; font-size: 40px;">Travel & Agent</h1>
+                            <h5 class="">Around The World With -eLOGI !</h5>
+                            <div style="display: flex;">
+                                <div>
+                                    <h6>SERVICE</h6>
+                                    <select class="custom-select" id="service" name="service" aria-label="service" style="width: 120px;">
+                                        <option value="">CHOOSE</option>
+                                        @foreach($services as $val)
+                                            <option value="{{$val->Service_Name}}">{{$val->Service_Name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id="RENT" style="display: none;">
+                                    <div style="display: flex;">
+                                        <div>
+                                            <h6 style="margin-left: 15px;" id="lcity">COUNTRY</h6>
+                                            <select class="custom-select" id="country" name="country" aria-label="country" style="width: 130px; margin-left: 15px;">
+                                                <option value="">CHOOSE</option>
+                                                @foreach($countries as $val)
+                                                    <option value="{{ $val->id }}">{{ $val->country }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <h6 style="margin-left: 15px;">PROVINCE</h6>
+                                            <select class="custom-select" id="province" name="province" aria-label="province" style="width: 130px; margin-left: 15px;">
+                                                <option value="">Choose</option>
+                                            </select>
+                                        </div>
+                                        <form id="filterForm" class="d-flex">
+                                            <div class="form-group">
+                                                <h6 style="margin-left: 15px;">CITY</h6>
+                                                <select class="custom-select" id="city" name="city" aria-label="city" style="width: 130px; margin-left: 15px;">
+                                                    <option value="">Select City</option>
+                                                    @foreach ($cities as $city)
+                                                        <option value="{{ $city->name }}">{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <!-- Input Tanggal Pick-up -->
+                                            <div class="form-group" style="margin-left: 15px;">
+                                                <h6 >Pick Up Date</h6>
+                                                <input type="date" id="pick_up" name="pick_up" class="form-control">
+                                            </div>
+                                            <!-- Input Tanggal Drop-off -->
+                                            <div class="form-group" style="margin-left: 15px;">
+                                                <h6 >Drop Off Date</h6>
+                                                <input type="date" id="drop_off" name="drop_off" class="form-control">
+                                            </div>
+                                            <button type="submit" class="btn btn-warning" style="margin-left: 15px;">Show Cars</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            @endcan
+                        @endguest
                     </div>
-                    <div>
-                        <h6 style="margin-left: 15px;">PROVINCE</h6>
-                        <select class="custom-select" id="province" name="province" aria-label="province" style="width: 130px; margin-left: 15px;">
-                            <option value="">Choose</option>
-                        </select>
+                </div>
+                <div id="carResults" class="row g-4 mt-1">
+            
+                </div>
+                <div id="loading-spinner" class="text-center py-5 mt-5" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
-<form id="filterForm" class="d-flex">
-
-    <div class="form-group">
-        <h6 style="margin-left: 15px;">CITY</h6>
-        <select class="custom-select" id="city" name="city" aria-label="city" style="width: 130px; margin-left: 15px;">
-            <option value="">Select City</option>
-            @foreach ($cities as $city)
-                <option value="{{ $city->name }}">{{ $city->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <!-- Input Tanggal Pick-up -->
-    <div class="form-group" style="margin-left: 15px;">
-        <h6 >Pick Up Date</h6>
-        <input type="date" id="pick_up" name="pick_up" class="form-control">
-    </div>
-
-    <!-- Input Tanggal Drop-off -->
-    <div class="form-group" style="margin-left: 15px;">
-        <h6 >Drop Off Date</h6>
-        <input type="date" id="drop_off" name="drop_off" class="form-control">
-    </div>
-
-    <button type="submit" class="btn btn-warning" style="margin-left: 15px;">Show Cars</button>
-</form>
-
                 </div>
             </div>
+
+            <!--chart-->
+                <div class="col=md-12 mt-3" id="TbyCar" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">{{ __('Grafict Transactions By Car') }}</div>
+                            <div class="p-6 m-20 bg-white rounded shadow">
+                                {!! $chart->container() !!}
+                            </div>
+                    </div>
+                </div>
+                <div class="col=md-12 mt-3" id="TbyMonth" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">{{ __('Grafict Transactions By Month') }}</div>
+                            <div class="p-6 m-20 bg-white rounded shadow">
+                                {!! $chart2->container() !!}
+                            </div>
+                    </div>
+                </div>
+                <div class="col=md-12 mt-3" id="TbyCompany" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">{{ __('Grafict Transactions By Company') }}</div>
+                            <div class="p-6 m-20 bg-white rounded shadow">
+                                {!! $chart3->container() !!}
+                            </div>
+                    </div>
+                </div>
+                <div class="col=md-12 mt-3" id="TbyCustomer" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">{{ __('Grafict Transactions By Customer') }}</div>
+                            <div class="p-6 m-20 bg-white rounded shadow">
+                                {!! $chart4->container() !!}
+                            </div>
+                    </div>
+                </div>
+
         </div>
     </div>
-</div>
-
-    <div id="carResults" class="row g-4 mt-1">
-
-    </div>
-
-    <div id="loading-spinner" class="text-center py-5 mt-5" style="display: none;">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-</div>
-
-</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -135,7 +304,7 @@ $(document).ready(function() {
                     $('#city').empty();
                     $('#city').append('<option value="">Choose</option>');
                     $.each(response, function(index, city) {
-                        $('#city').append('<option value="' + city.city + '">' + city.city + '</option>');
+                        $('#city').append('<option value="' + city.id + '">' + city.city + '</option>');
                     });
                 },
                 error: function(xhr) {
@@ -248,5 +417,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 </script>
+<script src="{{ $chart->cdn() }}"></script>
+{{ $chart->script() }}
 
+<script src="{{ $chart2->cdn() }}"></script>
+{{ $chart2->script() }}
+
+<script src="{{ $chart3->cdn() }}"></script>
+{{ $chart3->script() }}
+
+<script src="{{ $chart4->cdn() }}"></script>
+{{ $chart4->script() }}
 @endsection
