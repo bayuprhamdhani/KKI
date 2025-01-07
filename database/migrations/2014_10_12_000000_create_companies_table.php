@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('logo');
             $table->unsignedBigInteger('bank');
             $table->string('norek');
+            $table->string('contact');
             $table->rememberToken();
             $table->timestamps();
 

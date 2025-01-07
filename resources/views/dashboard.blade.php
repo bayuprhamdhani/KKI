@@ -14,56 +14,55 @@
                         @guest
                             <h1 class="logo-text" style="font-weight: bold; font-size: 40px;">Travel & Agent</h1>
                             <h5 class="">Around The World With -eLOGI !</h5>
-                            <div style="display: flex;">
-                                <div>
+                            <div class="row">
+                                <div class="col-3 col-md-2">
                                     <h6>SERVICE</h6>
-                                    <select class="custom-select" id="service" name="service" aria-label="service" style="width: 120px;">
-                                        <option value="">CHOOSE</option>
+                                    <select class="custom-select" id="service" name="service" aria-label="service">
+                                        <option value="">Choose</option>
                                         @foreach($services as $val)
                                             <option value="{{$val->Service_Name}}">{{$val->Service_Name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div id="RENT" style="display: none;">
-                                    <div style="display: flex;">
-                                        <div>
-                                            <h6 style="margin-left: 15px;" id="lcity">COUNTRY</h6>
-                                            <select class="custom-select" id="country" name="country" aria-label="country" style="width: 130px; margin-left: 15px;">
-                                                <option value="">CHOOSE</option>
+
+                                <div id="RENT" class="row col-12 col-md-12" style="display: none;">
+                                        <form id="filterForm" class="d-flex flex-wrap justify-content-between">
+                                        <div class="col-3 col-md-2">
+                                        <h6 id="lcity">COUNTRY</h6>
+                                            <select class="custom-select" id="country" name="country" aria-label="country">
+                                                <option value="">Choose</option>
                                                 @foreach($countries as $val)
                                                     <option value="{{ $val->id }}">{{ $val->country }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div>
-                                            <h6 style="margin-left: 15px;">PROVINCE</h6>
-                                            <select class="custom-select" id="province" name="province" aria-label="province" style="width: 130px; margin-left: 15px;">
+
+                                        <div class="col-4 col-md-2">
+                                            <h6>PROVINCE</h6>
+                                            <select class="custom-select" id="province" name="province" aria-label="province">
                                                 <option value="">Choose</option>
                                             </select>
                                         </div>
-                                        <form id="filterForm" class="d-flex">
-                                            <div class="form-group">
-                                                <h6 style="margin-left: 15px;">CITY</h6>
-                                                <select class="custom-select" id="city" name="city" aria-label="city" style="width: 130px; margin-left: 15px;">
-                                                    <option value="">Select City</option>
-                                                    @foreach ($cities as $city)
-                                                        <option value="{{ $city->name }}">{{ $city->name }}</option>
-                                                    @endforeach
+
+                                            <div class="form-group col-4 col-md-2">
+                                                <h6>CITY</h6>
+                                                <select class="custom-select" id="city" name="city" aria-label="city">
+                                                    <option value="">Choose</option>
                                                 </select>
                                             </div>
-                                            <!-- Input Tanggal Pick-up -->
-                                            <div class="form-group" style="margin-left: 15px;">
-                                                <h6 >Pick Up Date</h6>
+
+                                            <div class="form-group col-4 col-md-2">
+                                                <h6>Pick Up</h6>
                                                 <input type="date" id="pick_up" name="pick_up" class="form-control">
                                             </div>
-                                            <!-- Input Tanggal Drop-off -->
-                                            <div class="form-group" style="margin-left: 15px;">
-                                                <h6 >Drop Off Date</h6>
+
+                                            <div class="form-group col-4 col-md-2">
+                                                <h6>Drop Off</h6>
                                                 <input type="date" id="drop_off" name="drop_off" class="form-control">
                                             </div>
-                                            <button type="submit" class="btn btn-warning" style="margin-left: 15px;">Show Cars</button>
+
+                                            <button type="submit" class="btn btn-sm btn-warning col-3 col-md-1 col-lg-1" >Show Cars</button>
                                         </form>
-                                    </div>
                                 </div>
                             </div>
                         @else
@@ -152,56 +151,55 @@
                             @can('customer')
                             <h1 class="logo-text" style="font-weight: bold; font-size: 40px;">Travel & Agent</h1>
                             <h5 class="">Around The World With -eLOGI !</h5>
-                            <div style="display: flex;">
-                                <div>
+                            <div class="row">
+                                <div class="col-3 col-md-2">
                                     <h6>SERVICE</h6>
-                                    <select class="custom-select" id="service" name="service" aria-label="service" style="width: 120px;">
-                                        <option value="">CHOOSE</option>
+                                    <select class="custom-select" id="service" name="service" aria-label="service">
+                                        <option value="">Choose</option>
                                         @foreach($services as $val)
                                             <option value="{{$val->Service_Name}}">{{$val->Service_Name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div id="RENT" style="display: none;">
-                                    <div style="display: flex;">
-                                        <div>
-                                            <h6 style="margin-left: 15px;" id="lcity">COUNTRY</h6>
-                                            <select class="custom-select" id="country" name="country" aria-label="country" style="width: 130px; margin-left: 15px;">
-                                                <option value="">CHOOSE</option>
+
+                                <div id="RENT" class="row col-12 col-md-12" style="display: none;">
+                                        <form id="filterForm" class="d-flex flex-wrap justify-content-between">
+                                        <div class="col-3 col-md-2">
+                                        <h6 id="lcity">COUNTRY</h6>
+                                            <select class="custom-select" id="country" name="country" aria-label="country">
+                                                <option value="">Choose</option>
                                                 @foreach($countries as $val)
                                                     <option value="{{ $val->id }}">{{ $val->country }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div>
-                                            <h6 style="margin-left: 15px;">PROVINCE</h6>
-                                            <select class="custom-select" id="province" name="province" aria-label="province" style="width: 130px; margin-left: 15px;">
+
+                                        <div class="col-4 col-md-2">
+                                            <h6>PROVINCE</h6>
+                                            <select class="custom-select" id="province" name="province" aria-label="province">
                                                 <option value="">Choose</option>
                                             </select>
                                         </div>
-                                        <form id="filterForm" class="d-flex">
-                                            <div class="form-group">
-                                                <h6 style="margin-left: 15px;">CITY</h6>
-                                                <select class="custom-select" id="city" name="city" aria-label="city" style="width: 130px; margin-left: 15px;">
-                                                    <option value="">Select City</option>
-                                                    @foreach ($cities as $city)
-                                                        <option value="{{ $city->name }}">{{ $city->name }}</option>
-                                                    @endforeach
+
+                                            <div class="form-group col-4 col-md-2">
+                                                <h6>CITY</h6>
+                                                <select class="custom-select" id="city" name="city" aria-label="city">
+                                                    <option value="">Choose</option>
                                                 </select>
                                             </div>
-                                            <!-- Input Tanggal Pick-up -->
-                                            <div class="form-group" style="margin-left: 15px;">
-                                                <h6 >Pick Up Date</h6>
+
+                                            <div class="form-group col-4 col-md-2">
+                                                <h6>Pick Up</h6>
                                                 <input type="date" id="pick_up" name="pick_up" class="form-control">
                                             </div>
-                                            <!-- Input Tanggal Drop-off -->
-                                            <div class="form-group" style="margin-left: 15px;">
-                                                <h6 >Drop Off Date</h6>
+
+                                            <div class="form-group col-4 col-md-2">
+                                                <h6>Drop Off</h6>
                                                 <input type="date" id="drop_off" name="drop_off" class="form-control">
                                             </div>
-                                            <button type="submit" class="btn btn-warning" style="margin-left: 15px;">Show Cars</button>
+
+                                            <button type="submit" class="btn btn-sm btn-warning col-3 col-md-1 col-lg-1" >Show Cars</button>
                                         </form>
-                                    </div>
                                 </div>
                             </div>
                             @endcan

@@ -11,11 +11,11 @@ class CustomerSeeder extends Seeder
      * Run the database seeds.
      */          
     private $customers = [
-        ["Trinanda Zalsa", "trinanda@gmail.com", "123456", "081312424171", 1, 1, 1, 5, 1, "839271", "2024-02-10", "6734"],
-        ["Rainna Shofa", "rainna@gmail.com", "123456", "081829361839", 1, 1, 2, 4, 2, "678236", "2024-12-01", "1323"],
-        ["Esa Albi", "esa@gmail.com", "123456", "081748392016", 1, 2, 3, 3, 3, "839271", "2024-11-09", "7105"],
-        ["Naufal Elqolbi", "naufal@gmail.com", "123456", "081739402648", 1, 2, 4, 2, 1, "839271", "2023-01-12", "1035"],
-        ["Fikri Ardian", "fikri@gmail.com", "123456", "081291035489", 1, 3, 5, 1, 2, "839271", "2024-04-07", "9275"],
+        ["Trinanda Zalsa", "trinanda@gmail.com", "123456", "81312424171", 1, 1, 1, 5, 1, "839271", "2024-02-10", "6734"],
+        ["Rainna Shofa", "rainna@gmail.com", "123456", "81829361839", 1, 1, 2, 4, 2, "678236", "2024-12-01", "1323"],
+        ["Esa Albi", "esa@gmail.com", "123456", "81748392016", 1, 2, 3, 3, 3, "839271", "2024-11-09", "7105"],
+        ["Naufal Elqolbi", "naufal@gmail.com", "123456", "81739402648", 1, 2, 4, 2, 1, "839271", "2023-01-12", "1035"],
+        ["Fikri Ardian", "fikri@gmail.com", "123456", "81291035489", 1, 3, 5, 1, 2, "839271", "2024-04-07", "9275"],
     ];
 
     public function run(): void

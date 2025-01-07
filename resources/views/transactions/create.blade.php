@@ -81,7 +81,7 @@
                                   @endif
                               </div>
                           </div>
-                          <div class="form-group row mt-3 mb-5">
+                          <div class="form-group row mt-3">
                               <label for="password" class="col-md-4 col-form-label text-right">Password</label>
                               <div class="col-md-6">
                                   <input type="password" id="password" class="form-control" name="password" required>
@@ -90,6 +90,16 @@
                                   @endif
                               </div>
                           </div>
+
+                          <div class="form-group row mt-3 mb-5">
+                                <label for="password_confirmation" class="col-md-4 col-form-label text-right">Confirm Password</label>
+                                <div class="col-md-6">
+                                    <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" required>
+                                    @if ($errors->has('password_confirmation'))
+                                        <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                                    @endif
+                                </div>
+                            </div>
 
                           <h4 style="margin-left:0.7rem;">BIODATA CUSTOMER</h4>
                           <div class="form-group row">
@@ -102,14 +112,17 @@
                               </div>
                           </div>
                           <div class="form-group row mt-3">
-                              <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
-                              <div class="col-md-6">
-                                  <input type="number" id="contact" class="form-control" name="contact" required autofocus>
-                                  @if ($errors->has('contact'))
-                                      <span class="text-danger">{{ $errors->first('contact') }}</span>
-                                  @endif
-                              </div>
-                          </div>
+                            <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
+                            <div class="col-md-1">
+                                <h5 for="">+62</h5>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" id="contact" class="form-control" name="contact" required autofocus oninput="this.value = this.value.replace(/^0/, '')">
+                                @if ($errors->has('contact'))
+                                    <span class="text-danger">{{ $errors->first('contact') }}</span>
+                                @endif
+                            </div>
+                        </div>
 
                           <div class="form-group row mt-3">
                               <label for="country" class="col-md-4 col-form-label text-right">Country</label>
@@ -165,6 +178,21 @@
 
                           <h4 style="margin-left:0.7rem;">PAYMENT</h4>
                           <div class="form-group row">
+                                <label for="payment" class="col-md-4 col-form-label text-right">Payment</label>
+                                <div class="col-md-6">
+                                    <select class="form-select" id="payment" name="payment" required>
+                                        <option value="">Choose</option>
+                                        @foreach($payments as $val)
+                                            <option value="{{ $val->id }}">{{ $val->payment }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('payment'))
+                                        <span class="text-danger">{{ $errors->first('payment') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                          <div class="form-group row mt-3">
                                 <label for="card_type" class="col-md-4 col-form-label text-right">Card Type</label>
                                 <div class="col-md-6">
                                     <select class="form-select" id="card_type" name="card_type" required>
@@ -210,9 +238,9 @@
                           </div>
 
                             <!-- Submit Button -->
-                          <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                           </div>
+                            <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
+                                <button type="submit" class="btn btn-primary" onclick="return confirmSubmit()">Submit</button>
+                            </div>
                         </form>
 
                         
@@ -379,5 +407,19 @@ function calculatePrice() {
 }
 
 </script>
+<script>
+function confirmSubmit() {
+    // Ambil nilai dari input payment
+    var payment = document.getElementById('payment').value;
 
+    // Jika nilai payment adalah 2, tampilkan konfirmasi
+    if (payment == 2) {
+        return confirm("Sudah transfer ?");
+    }
+
+    // Jika payment bukan 2, lanjutkan pengiriman tanpa konfirmasi
+    return true;
+}
+
+</script>
 @endsection

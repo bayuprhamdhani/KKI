@@ -19,9 +19,9 @@ class CustomerController extends Controller
     public function index()
     {
         // Ambil user yang sedang login
-    
+    $customers = Customer::all();
         // Kirim data ke view
-        return view('customers.index');
+        return view('customers.index',compact('customers'));
     }
     
 

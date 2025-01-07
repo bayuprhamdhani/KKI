@@ -26,7 +26,8 @@ class Company extends Model
         'status',
         'logo',
         'bank',
-        'norek'
+        'norek',
+        'contact'
     ];
 
     public function cars()

@@ -51,17 +51,6 @@
                                 </div>
                             </div>
 
-
-                          <div class="form-group row mt-3">
-                              <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
-                              <div class="col-md-6">
-                                  <input type="number" id="contact" class="form-control" name="contact" required autofocus>
-                                  @if ($errors->has('contact'))
-                                      <span class="text-danger">{{ $errors->first('contact') }}</span>
-                                  @endif
-                              </div>
-                          </div>
-
                           <div class="form-group row mt-3">
                               <label for="country" class="col-md-4 col-form-label text-right">Country</label>
                               <div class="col-md-6">
@@ -151,6 +140,20 @@
                                   @endif
                               </div>
                           </div>
+
+                          <div class="form-group row mt-3">
+                            <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
+                            <div class="col-md-1">
+                                <h5 for="">+62</h5>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" id="contact" class="form-control" name="contact" required autofocus oninput="this.value = this.value.replace(/^0/, '')">
+                                @if ($errors->has('contact'))
+                                    <span class="text-danger">{{ $errors->first('contact') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
   
                           <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
                               <button type="submit" class="btn btn-primary">

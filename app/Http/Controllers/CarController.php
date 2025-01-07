@@ -62,34 +62,52 @@ class CarController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'qty' => 'required',
-            'transmisi' => 'required',
-            'price' => 'required',
-            'pict' => 'required',
-            'status' => 'required',
-            'company' => 'required',
-        ]);
-        // dd($data);
-        if ($request->file('pict')) {
-            $validatedData['pict'] = $request->file('pict')->store('car-pict', 'public');
-        }
+{
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'qty' => 'required',
+        'transmisi' => 'required',
+        'price' => 'required',
+        'pict' => 'required|image|file|max:1024',
+        'status' => 'required',
+        'company' => 'required',
+    ]);
 
-        $check = Car::create([
-            'name' => $validatedData['name'],
-            'qty' => $validatedData['qty'],
-            'transmisi' =>$validatedData['transmisi'],
-            'price' =>$validatedData['price'],
-            'pict' =>$validatedData['pict'],
-            'status' =>$validatedData['status'],
-            'company' =>$validatedData['company']
-        ]);
-         
-        return redirect()->route('cars.index')
-        ->withSuccess('Great! You have successfully created');
+    // Proses penyimpanan file gambar
+    if ($request->file('pict')) {
+        // Ambil file dan simpan dengan nama menggunakan ID sementara
+        $file = $request->file('pict');
+        $fileExtension = $file->getClientOriginalExtension();
+        // Simpan sementara dengan ID mobil (belum ada ID saat pembuatan)
+        $fileName = 'temp_' . uniqid() . '.' . $fileExtension;
+        $filePath = $file->storeAs('car-pict', $fileName, 'public');
     }
+
+    // Simpan data mobil
+    $car = Car::create([
+        'name' => $validatedData['name'],
+        'qty' => $validatedData['qty'],
+        'transmisi' => $validatedData['transmisi'],
+        'price' => $validatedData['price'],
+        'status' => $validatedData['status'],
+        'company' => $validatedData['company'],
+        'pict' => $filePath, // Menyimpan path gambar sementara
+    ]);
+
+    // Rename file setelah mobil disimpan
+    $newFileName = $car->id . '.' . $fileExtension;
+    $newFilePath = 'car-pict/' . $newFileName;
+
+    // Rename file di storage
+    \Storage::disk('public')->move($filePath, $newFilePath);
+
+    // Update gambar dengan nama baru
+    $car->update(['pict' => $newFilePath]);
+
+    return redirect()->route('cars.index')
+        ->withSuccess('Great! You have successfully created a car.');
+}
+
 
     /**
      * Display the specified resource.
@@ -127,11 +145,20 @@ class CarController extends Controller
     // Jika Ada File Gambar yang Diunggah
     if ($request->file('pict')) {
         // Simpan File Baru
-        $validatedData['pict'] = $request->file('pict')->store('car-pict', 'public');
+        $file = $request->file('pict');
+        $fileExtension = $file->getClientOriginalExtension();
+        $newFileName = $car->id . '.' . $fileExtension;
+        $newFilePath = 'car-pict/' . $newFileName;
+
         // Hapus Gambar Lama (Opsional)
         if ($car->pict) {
             \Storage::disk('public')->delete($car->pict);
         }
+
+        // Simpan file baru dengan nama ID mobil
+        $file->storeAs('car-pict', $newFileName, 'public');
+
+        $validatedData['pict'] = $newFilePath;
     } else {
         // Jika Tidak Ada Gambar Baru, Gunakan Gambar Lama
         $validatedData['pict'] = $car->pict;
@@ -151,6 +178,7 @@ class CarController extends Controller
     return redirect()->route('cars.index')
         ->withSuccess('Great! You have successfully updated ' . $car->name);
 }
+
 
 
     /**

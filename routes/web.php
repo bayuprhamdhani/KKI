@@ -33,6 +33,7 @@ Route::get('registrationTransaction/{id}', [AuthControllerTransaction::class, 'r
 Route::get('registrationTransaction2/{id}', [AuthControllerTransaction::class, 'registration2'])->name('registerTransaction2');
 Route::post('post-registrationTransaction', [AuthControllerTransaction::class, 'postRegistration'])->name('registerTransaction.post');
 Route::post('post-registrationTransaction2', [AuthControllerTransaction::class, 'postRegistration2'])->name('registerTransaction.post2');
+Route::post('/transactions/upload/{id}', [AuthControllerTransaction::class, 'uploadPayment'])->name('registerTransaction.post3');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('customers', CustomerController::class);

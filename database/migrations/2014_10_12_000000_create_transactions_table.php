@@ -19,11 +19,14 @@ return new class extends Migration
             $table->date('drop_off');
             $table->date('date_order');
             $table->string('price');
+            $table->unsignedBigInteger('payment');
+            $table->string('pictPayment')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
             $table->foreign('customer')->references('id')->on('customers');
             $table->foreign('car')->references('id')->on('cars');
+            $table->foreign('payment')->references('id')->on('payments');
         });
     }
 

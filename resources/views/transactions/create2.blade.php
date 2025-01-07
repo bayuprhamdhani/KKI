@@ -14,6 +14,21 @@
 
                           <h4 style="margin-left:0.7rem;">RENT ORDER</h4>
 
+                          <div class="form-group row mt-3">
+                                <label for="payment" class="col-md-4 col-form-label text-right">Payment</label>
+                                <div class="col-md-6">
+                                    <select class="form-select" id="payment" name="payment" required>
+                                        <option value="">Choose</option>
+                                        @foreach($payments as $val)
+                                            <option value="{{ $val->id }}">{{ $val->payment }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('payment'))
+                                        <span class="text-danger">{{ $errors->first('payment') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
                           <div class="form-group row mt-3 d-none">
                               <label for="customer" class="col-md-4 col-form-label text-right">Customer</label>
                               <div class="col-md-6">
@@ -82,9 +97,9 @@
                           </div>
 
                             <!-- Submit Button -->
-                          <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                           </div>
+                            <div class="col-md-6 offset-md-4 mt-3 p-2 d-grid">
+                                <button type="submit" class="btn btn-primary" onclick="return confirmSubmit()">Submit</button>
+                            </div>
                         </form>
 
                         
@@ -251,5 +266,19 @@ function calculatePrice() {
 }
 
 </script>
+<script>
+function confirmSubmit() {
+    // Ambil nilai dari input payment
+    var payment = document.getElementById('payment').value;
 
+    // Jika nilai payment adalah 2, tampilkan konfirmasi
+    if (payment == 2) {
+        return confirm("Sudah transfer ?");
+    }
+
+    // Jika payment bukan 2, lanjutkan pengiriman tanpa konfirmasi
+    return true;
+}
+
+</script>
 @endsection

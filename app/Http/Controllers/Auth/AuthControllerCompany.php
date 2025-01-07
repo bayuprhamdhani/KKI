@@ -34,66 +34,82 @@ class AuthControllerCompany extends Controller
 
 
     public function postRegistration(Request $request): RedirectResponse
-{
-    // Validasi Input
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required|email|unique:users|unique:companies',
-        'password' => 'required|min:6|confirmed',
-        'password_confirmation' => 'required',
-        'country' => 'required',
-        'province' => 'required',
-        'city' => 'required',
-        'subdistrict' => 'required',
-        'logo' => 'required|image|file|max:1024',
-        'bank' => 'required',
-        'norek' => 'required'
-    ]);
+    {
+        // Validasi Input
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users|unique:companies',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
+            'country' => 'required',
+            'province' => 'required',
+            'city' => 'required',
+            'subdistrict' => 'required',
+            'logo' => 'required|image|file|max:1024',
+            'bank' => 'required',
+            'norek' => 'required',
+            'contact' => 'required'
+        ]);
     
-
-    try {
-        // Mulai Transaction
-        DB::beginTransaction();
-
-        // Simpan File Logo
-        $data = $request->all();
-        if ($request->file('logo')) {
-            $data['logo'] = $request->file('logo')->store('company-logo', 'public');
+        try {
+            // Mulai Transaction
+            DB::beginTransaction();
+    
+            // Simpan File Logo
+            $data = $request->all();
+            if ($request->file('logo')) {
+                $file = $request->file('logo');
+                $fileExtension = $file->getClientOriginalExtension();
+                // Simpan sementara dengan nama acak
+                $tempFileName = 'temp_' . uniqid() . '.' . $fileExtension;
+                $filePath = $file->storeAs('company-logo', $tempFileName, 'public');
+            }
+    
+            // Simpan ke Tabel Company
+            $company = Company::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'country' => $data['country'],
+                'province' => $data['province'],
+                'city' => $data['city'],
+                'subdistrict' => $data['subdistrict'],
+                'status' => 1,
+                'logo' => $filePath, // Menyimpan path logo sementara
+                'bank' => $data['bank'],
+                'norek' => $data['norek'],
+                'contact' => $data['contact']
+            ]);
+    
+            // Ganti nama file logo sesuai dengan ID perusahaan
+            $newFileName = $company->id . '.' . $fileExtension;
+            $newFilePath = 'company-logo/' . $newFileName;
+    
+            // Pindahkan file dengan nama baru
+            \Storage::disk('public')->move($filePath, $newFilePath);
+    
+            // Update path logo di tabel company
+            $company->update(['logo' => $newFilePath]);
+    
+            // Simpan ke Tabel User
+            $user = User::create([
+                'user' => $company->id,
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role_id' => 2, // Set role ke "company"
+                'path' => $newFilePath
+            ]);
+    
+            // Commit Transaction
+            DB::commit();
+    
+            return redirect("login")->withSuccess('Great! You have Successfully registered');
+        } catch (\Exception $e) {
+            // Rollback jika ada kesalahan
+            DB::rollBack();
+            return back()->withError('Something went wrong: ' . $e->getMessage());
         }
-
-        // Simpan ke Tabel Company
-        $company = Company::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'country' => $data['country'],
-            'province' => $data['province'],
-            'city' => $data['city'],
-            'subdistrict' => $data['subdistrict'],
-            'status' => 1,
-            'logo' => $data['logo'],
-            'bank' => $data['bank'],
-            'norek' => $data['norek']
-        ]);
-
-        // Simpan ke Tabel User
-        $user = User::create([
-            'user' => $company->id,
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role_id' => 2, // Set role ke "company"
-            'path' => $data['logo']
-        ]);
-
-        // Commit Transaction
-        DB::commit();
-
-        return redirect("login")->withSuccess('Great! You have Successfully registered');
-    } catch (\Exception $e) {
-        // Rollback jika ada kesalahan
-        DB::rollBack();
-        return back()->withError('Something went wrong: ' . $e->getMessage());
     }
-}
+    
 
 }

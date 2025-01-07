@@ -20,17 +20,18 @@
                     <a href="{{ route('user-export') }}" class="btn btn-sm btn-primary">
                         Export User to Excel
                     </a>
--->
                     <a id="importButton" class="btn btn-sm btn-warning">
                         Import User
                     </a>
+-->
+
                     <table class="table table-striped" id="users">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Role</th>
-                                <th scope="col">Action</th>
+                                <!--<th scope="col">Action</th>-->
                             </tr>
                         </thead>
                         <tbody>
@@ -53,7 +54,7 @@
                             }
                         @endphp
                                 <td>{{ $roleText }}</td>
-                                <td>
+<!--                                <td>
                                     <a href="{{ route('users.edit', $row->id) }}" class="btn btn-sm btn-warning">
                                         Edit
                                     </a>
@@ -64,7 +65,7 @@
                                                 Delete
                                             </span></button>
                                     </form>
-                                </td>
+                                </td> -->
                             </tr>
                             @endforeach
 

@@ -42,14 +42,27 @@
                           </div>
 
                           <div class="form-group row mt-3">
-                              <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
-                              <div class="col-md-6">
-                                  <input type="number" id="contact" class="form-control" name="contact" required autofocus>
-                                  @if ($errors->has('contact'))
-                                      <span class="text-danger">{{ $errors->first('contact') }}</span>
-                                  @endif
-                              </div>
-                          </div>
+                                <label for="password_confirmation" class="col-md-4 col-form-label text-right">Confirm Password</label>
+                                <div class="col-md-6">
+                                    <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" required>
+                                    @if ($errors->has('password_confirmation'))
+                                        <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-3">
+                            <label for="contact" class="col-md-4 col-form-label text-right">Contact</label>
+                            <div class="col-md-1">
+                                <h5 for="">+62</h5>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" id="contact" class="form-control" name="contact" required autofocus oninput="this.value = this.value.replace(/^0/, '')">
+                                @if ($errors->has('contact'))
+                                    <span class="text-danger">{{ $errors->first('contact') }}</span>
+                                @endif
+                            </div>
+                        </div>
 
                           <div class="form-group row mt-3">
                               <label for="country" class="col-md-4 col-form-label text-right">Country</label>

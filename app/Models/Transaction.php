@@ -20,7 +20,9 @@ class Transaction extends Model
         'pick_up',
         'drop_off',
         'date_order',
-        'price'
+        'price',
+        'payment',
+        'pictPayment'
     ];
     // app/Models/Transaction.php
 public function car()

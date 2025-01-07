@@ -41,4 +41,11 @@ class Car extends Model
     {
         return $this->company()->first()->name ?? 'N/A';
     }
+
+    // Pada model Car
+public function transaction()
+{
+    return $this->hasOne(Transaction::class, 'car');
+}
+
 }

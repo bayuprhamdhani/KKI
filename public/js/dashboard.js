@@ -5,6 +5,7 @@ $(document).ready(function() {
       }
       else {
         $('#RENT').hide();
+        $('#carResults').hide();
       }
     });
   });

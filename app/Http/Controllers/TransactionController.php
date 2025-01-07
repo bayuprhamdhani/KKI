@@ -26,39 +26,73 @@ class TransactionController extends Controller
          $user = Auth::user();
      
          if ($user->role_id == 1) {
-            // Jika role_id == 1, ambil semua data cars yang id-nya ada di tabel transactions
-            $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
-                ->join('transactions', 'transactions.car', '=', 'cars.id')
-                ->select(
-                    'cars.id', 'cars.name as car_name', 'cars.pict', 
-                    'companies.logo', 'companies.name as company',
-                    'transactions.pick_up', 'transactions.drop_off', 'transactions.date_order', 'transactions.price'
-                )
-                ->get();
-    
-            // Kirim data ke view
-            return view('transactions.index', compact('cars'));
-        } elseif ($user->role_id == 2) {
+             // Jika role_id == 1, ambil semua data cars yang id-nya ada di tabel transactions
+             $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
+                 ->join('transactions', 'transactions.car', '=', 'cars.id')
+                 ->join('payments', 'payments.id', '=', 'transactions.payment')
+                 ->select(
+                     'cars.id', 
+                     'cars.name as car_name', 
+                     'cars.pict', 
+                     'companies.logo', 
+                     'companies.contact', 
+                     'companies.name as company',
+                     'transactions.id as transaction_id',
+                     'transactions.pick_up', 
+                     'transactions.drop_off', 
+                     'transactions.date_order', 
+                     'transactions.price', 
+                     'transactions.payment as payment',
+                     'transactions.pictPayment',  // Tambahkan kolom pictPayment di sini
+                     'payments.payment as paymentStatus'
+                 )
+                 ->get();
+         } elseif ($user->role_id == 2) {
             $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
             ->join('transactions', 'transactions.car', '=', 'cars.id')
+            ->join('customers', 'customers.id', '=', 'transactions.customer') // Perbaiki join ke tabel 'customers'
+            ->join('payments', 'payments.id', '=', 'transactions.payment')
             ->select(
-                'cars.id', 'cars.name as car_name', 'cars.pict', 'cars.company', 
-                'companies.logo', 'companies.name as company',
-                'transactions.pick_up', 'transactions.drop_off', 'transactions.date_order', 'transactions.price'
+                'cars.id', 
+                'cars.name as car_name', 
+                'cars.pict', 
+                'cars.company', 
+                'companies.logo', 
+                'companies.name as company',
+                'customers.contact as contactCustomer',
+                'customers.name as contactName',
+                'transactions.id as transaction_id',
+                'transactions.pick_up', 
+                'transactions.drop_off', 
+                'transactions.date_order', 
+                'transactions.price', 
+                'transactions.payment as payment',
+                'transactions.pictPayment',  // Tambahkan kolom pictPayment di sini
+                'payments.payment as paymentStatus'
             )
             ->where('cars.company', $user->user)
             ->get();
-        } elseif ($user->role_id == 3){
-            $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
-            ->join('transactions', 'transactions.car', '=', 'cars.id')
-            ->select(
-                'cars.id', 'cars.name as car_name', 'cars.pict', 
-                'companies.logo', 'companies.name as company',
-                'transactions.pick_up', 'transactions.drop_off', 'transactions.date_order', 'transactions.price'
-            )
-            ->where('transactions.customer', $user->user)
-            ->get();
-        }
+        
+         } elseif ($user->role_id == 3) {
+             $cars = Car::join('companies', 'companies.id', '=', 'cars.company')
+                 ->join('transactions', 'transactions.car', '=', 'cars.id')
+                 ->select(
+                     'cars.id', 
+                     'cars.name as car_name', 
+                     'cars.pict', 
+                     'companies.logo', 
+                     'companies.name as company',
+                     'companies.contact as contactCompany',
+                     'transactions.pick_up', 
+                     'transactions.drop_off', 
+                     'transactions.date_order', 
+                     'transactions.price',
+                     'transactions.pictPayment',
+                     'transactions.payment'
+                 )
+                 ->where('transactions.customer', $user->user)
+                 ->get();
+         }
      
          // Ambil data status dan transmisi
          $statuses = Status::all();
@@ -66,8 +100,9 @@ class TransactionController extends Controller
          $transactions = Transaction::all();
      
          // Kirim data ke view
-         return view('transactions.index', compact('cars', 'transmisies', 'statuses', 'transactions'));
+         return view('transactions.index', compact('cars', 'transmisies', 'statuses', 'transactions', 'user'));
      }
+     
      
      
 

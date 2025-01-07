@@ -98,7 +98,7 @@ class AuthControllerCustomer extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users|unique:customers',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
             'contact' => ['required', 'numeric'],
             'country' => 'required',
             'province' => 'required',
